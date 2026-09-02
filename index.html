@@ -1,0 +1,541 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Comité de Empresa Maflow</title>
+
+<style>
+:root{
+--bg:#f4f6f8;
+--card:#fff;
+--text:#17212b;
+--muted:#6b7785;
+--accent:#173f5f;
+--accent2:#20639b;
+--line:#e6e9ed
+}
+
+*{box-sizing:border-box}
+
+body{
+margin:0;
+background:var(--bg);
+font-family:Arial,Helvetica,sans-serif;
+color:var(--text)
+}
+
+.phone{
+max-width:430px;
+margin:0 auto;
+min-height:100vh;
+background:var(--bg);
+box-shadow:0 0 35px rgba(0,0,0,.08)
+}
+
+.header{
+background:linear-gradient(145deg,var(--accent),var(--accent2));
+color:#fff;
+padding:28px 22px 25px;
+border-radius:0 0 28px 28px
+}
+
+.badge{
+display:inline-block;
+font-size:12px;
+font-weight:700;
+letter-spacing:.8px;
+background:rgba(255,255,255,.14);
+padding:7px 10px;
+border-radius:20px;
+margin-bottom:14px
+}
+
+h1{
+font-size:27px;
+line-height:1.08;
+margin:0 0 8px
+}
+
+.subtitle{
+font-size:14px;
+opacity:.9;
+margin:0
+}
+
+.content{
+padding:20px 16px 90px
+}
+
+.section-title{
+font-size:15px;
+font-weight:700;
+margin:4px 4px 12px
+}
+
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:13px
+}
+
+.card{
+background:var(--card);
+border:1px solid var(--line);
+border-radius:20px;
+padding:18px 15px;
+min-height:142px;
+box-shadow:0 5px 16px rgba(22,34,46,.05)
+}
+
+.icon{
+width:48px;
+height:48px;
+border-radius:15px;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:25px;
+background:#eef3f7;
+margin-bottom:14px
+}
+
+.card h2{
+font-size:15px;
+line-height:1.2;
+margin:0 0 7px
+}
+
+.card p{
+font-size:12px;
+line-height:1.35;
+color:var(--muted);
+margin:0
+}
+
+.wide{
+grid-column:1/-1;
+min-height:112px;
+display:flex;
+gap:15px;
+align-items:center
+}
+
+.wide .icon{
+margin:0;
+flex:none
+}
+
+.notice{
+margin-top:20px;
+background:#fff;
+border:1px solid var(--line);
+border-radius:20px;
+padding:16px
+}
+
+.notice-head{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:8px
+}
+
+.notice strong{
+font-size:14px
+}
+
+.date{
+font-size:11px;
+color:var(--muted)
+}
+
+.notice p{
+font-size:12px;
+line-height:1.45;
+color:#56616d;
+margin:0
+}
+
+.bottom{
+position:fixed;
+bottom:0;
+left:50%;
+transform:translateX(-50%);
+width:min(430px,100%);
+height:67px;
+background:rgba(255,255,255,.96);
+border-top:1px solid var(--line);
+display:flex;
+justify-content:space-around;
+align-items:center
+}
+
+.nav{
+font-size:10px;
+color:var(--muted);
+text-align:center
+}
+
+.nav span{
+display:block;
+font-size:21px;
+margin-bottom:2px
+}
+
+.nav.active{
+color:var(--accent);
+font-weight:700
+}
+
+@media(min-width:700px){
+body{padding:30px 0}
+.phone{
+border-radius:28px;
+overflow:hidden
+}
+}
+</style>
+</head>
+
+<body>
+
+<div class="phone">
+
+<header class="header">
+<div class="badge">COMITÉ DE EMPRESA</div>
+<h1>MAFLOW</h1>
+<p class="subtitle">Información para los trabajadores</p>
+</header>
+
+<main class="content">
+
+<div class="section-title">¿Qué necesitas?</div>
+
+<div class="grid">
+
+<div class="card">
+<div class="icon">📢</div>
+<h2>Noticias y comunicados</h2>
+<p>Información y avisos del Comité de Empresa.</p>
+</div>
+
+<div class="card">
+<div class="icon">🦺</div>
+<h2>Prevención y seguridad</h2>
+<p>Prevención de riesgos, seguridad y salud laboral.</p>
+</div>
+
+<div class="card">
+<div class="icon">📄</div>
+<h2>Convenio y licencias</h2>
+<p>Convenio colectivo, permisos y licencias.</p>
+</div>
+
+<div class="card">
+<div class="icon">📅</div>
+<h2>Calendario de la empresa</h2>
+<p>Calendario laboral y días señalados.</p>
+</div>
+
+<div class="card wide">
+<div class="icon">📮</div>
+<div>
+<h2>Consultas / contacto</h2>
+<p>Envía una consulta al Comité de Empresa de forma sencilla.</p>
+</div>
+</div>
+
+</div>
+
+<div class="notice">
+<div class="notice-head">
+<strong>📌 Último comunicado</strong>
+<span class="date">Próximamente</span>
+</div>
+<p>Aquí aparecerán las últimas noticias y comunicados que publiques desde tu área privada.</p>
+</div>
+
+</main>
+
+<nav class="bottom">
+<div class="nav active"><span>⌂</span>Inicio</div>
+<div class="nav"><span>📢</span>Noticias</div>
+<div class="nav"><span>📅</span>Calendario</div>
+<div class="nav"><span>📮</span>Contacto</div>
+</nav>
+
+</div>
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Comité de Empresa Maflow</title>
+
+<style>
+:root{
+--bg:#f4f6f8;
+--card:#fff;
+--text:#17212b;
+--muted:#6b7785;
+--accent:#173f5f;
+--accent2:#20639b;
+--line:#e6e9ed
+}
+
+*{box-sizing:border-box}
+
+body{
+margin:0;
+background:var(--bg);
+font-family:Arial,Helvetica,sans-serif;
+color:var(--text)
+}
+
+.phone{
+max-width:430px;
+margin:0 auto;
+min-height:100vh;
+background:var(--bg);
+box-shadow:0 0 35px rgba(0,0,0,.08)
+}
+
+.header{
+background:linear-gradient(145deg,var(--accent),var(--accent2));
+color:#fff;
+padding:28px 22px 25px;
+border-radius:0 0 28px 28px
+}
+
+.badge{
+display:inline-block;
+font-size:12px;
+font-weight:700;
+letter-spacing:.8px;
+background:rgba(255,255,255,.14);
+padding:7px 10px;
+border-radius:20px;
+margin-bottom:14px
+}
+
+h1{
+font-size:27px;
+line-height:1.08;
+margin:0 0 8px
+}
+
+.subtitle{
+font-size:14px;
+opacity:.9;
+margin:0
+}
+
+.content{
+padding:20px 16px 90px
+}
+
+.section-title{
+font-size:15px;
+font-weight:700;
+margin:4px 4px 12px
+}
+
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:13px
+}
+
+.card{
+background:var(--card);
+border:1px solid var(--line);
+border-radius:20px;
+padding:18px 15px;
+min-height:142px;
+box-shadow:0 5px 16px rgba(22,34,46,.05)
+}
+
+.icon{
+width:48px;
+height:48px;
+border-radius:15px;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:25px;
+background:#eef3f7;
+margin-bottom:14px
+}
+
+.card h2{
+font-size:15px;
+line-height:1.2;
+margin:0 0 7px
+}
+
+.card p{
+font-size:12px;
+line-height:1.35;
+color:var(--muted);
+margin:0
+}
+
+.wide{
+grid-column:1/-1;
+min-height:112px;
+display:flex;
+gap:15px;
+align-items:center
+}
+
+.wide .icon{
+margin:0;
+flex:none
+}
+
+.notice{
+margin-top:20px;
+background:#fff;
+border:1px solid var(--line);
+border-radius:20px;
+padding:16px
+}
+
+.notice-head{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:8px
+}
+
+.notice strong{
+font-size:14px
+}
+
+.date{
+font-size:11px;
+color:var(--muted)
+}
+
+.notice p{
+font-size:12px;
+line-height:1.45;
+color:#56616d;
+margin:0
+}
+
+.bottom{
+position:fixed;
+bottom:0;
+left:50%;
+transform:translateX(-50%);
+width:min(430px,100%);
+height:67px;
+background:rgba(255,255,255,.96);
+border-top:1px solid var(--line);
+display:flex;
+justify-content:space-around;
+align-items:center
+}
+
+.nav{
+font-size:10px;
+color:var(--muted);
+text-align:center
+}
+
+.nav span{
+display:block;
+font-size:21px;
+margin-bottom:2px
+}
+
+.nav.active{
+color:var(--accent);
+font-weight:700
+}
+
+@media(min-width:700px){
+body{padding:30px 0}
+.phone{
+border-radius:28px;
+overflow:hidden
+}
+}
+</style>
+</head>
+
+<body>
+
+<div class="phone">
+
+<header class="header">
+<div class="badge">COMITÉ DE EMPRESA</div>
+<h1>MAFLOW</h1>
+<p class="subtitle">Información para los trabajadores</p>
+</header>
+
+<main class="content">
+
+<div class="section-title">¿Qué necesitas?</div>
+
+<div class="grid">
+
+<div class="card">
+<div class="icon">📢</div>
+<h2>Noticias y comunicados</h2>
+<p>Información y avisos del Comité de Empresa.</p>
+</div>
+
+<div class="card">
+<div class="icon">🦺</div>
+<h2>Prevención y seguridad</h2>
+<p>Prevención de riesgos, seguridad y salud laboral.</p>
+</div>
+
+<div class="card">
+<div class="icon">📄</div>
+<h2>Convenio y licencias</h2>
+<p>Convenio colectivo, permisos y licencias.</p>
+</div>
+
+<div class="card">
+<div class="icon">📅</div>
+<h2>Calendario de la empresa</h2>
+<p>Calendario laboral y días señalados.</p>
+</div>
+
+<div class="card wide">
+<div class="icon">📮</div>
+<div>
+<h2>Consultas / contacto</h2>
+<p>Envía una consulta al Comité de Empresa de forma sencilla.</p>
+</div>
+</div>
+
+</div>
+
+<div class="notice">
+<div class="notice-head">
+<strong>📌 Último comunicado</strong>
+<span class="date">Próximamente</span>
+</div>
+<p>Aquí aparecerán las últimas noticias y comunicados que publiques desde tu área privada.</p>
+</div>
+
+</main>
+
+<nav class="bottom">
+<div class="nav active"><span>⌂</span>Inicio</div>
+<div class="nav"><span>📢</span>Noticias</div>
+<div class="nav"><span>📅</span>Calendario</div>
+<div class="nav"><span>📮</span>Contacto</div>
+</nav>
+
+</div>
+
+</body>
+</html>
+</body>
+</html>
