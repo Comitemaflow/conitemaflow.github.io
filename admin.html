@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zona privada - Comité de Empresa Maflow</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f3f6f9;
+      color: #222;
+    }
+
+    header {
+      background: linear-gradient(135deg, #075985, #0284c7);
+      color: white;
+      padding: 25px 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 23px;
+    }
+
+    header p {
+      margin: 8px 0 0;
+      opacity: .9;
+    }
+
+    main {
+      max-width: 650px;
+      margin: auto;
+      padding: 20px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 18px;
+      padding: 20px;
+      margin-bottom: 16px;
+      box-shadow: 0 3px 12px rgba(0,0,0,.08);
+    }
+
+    h2 {
+      margin-top: 0;
+      color: #075985;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      border: 0;
+      border-radius: 12px;
+      background: #075985;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background: #064e75;
+    }
+
+    .logout {
+      background: #dc2626;
+    }
+
+    .logout:hover {
+      background: #b91c1c;
+    }
+
+    .mensaje {
+      padding: 12px;
+      border-radius: 10px;
+      background: #e0f2fe;
+      margin-top: 15px;
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>🔐 Zona privada</h1>
+  <p>Comité de Empresa Maflow</p>
+</header>
+
+<main>
+
+  <div class="card">
+    <h2>Panel de administración</h2>
+
+    <p>
+      Desde aquí podrás gestionar próximamente las noticias,
+      documentos, fotografías y calendario de la empresa.
+    </p>
+
+    <button onclick="alert('Próximamente podrás añadir noticias.')">
+      📢 Gestionar noticias
+    </button>
+
+    <button onclick="alert('Próximamente podrás subir documentos.')">
+      📄 Gestionar documentos
+    </button>
+
+    <button onclick="alert('Próximamente podrás gestionar fotografías.')">
+      📷 Gestionar fotos
+    </button>
+
+    <button onclick="alert('Próximamente podrás actualizar el calendario.')">
+      📅 Gestionar calendario
+    </button>
+  </div>
+
+  <div class="card">
+    <h2>Sesión</h2>
+
+    <p id="usuario">Comprobando usuario...</p>
+
+    <button class="logout" onclick="cerrarSesion()">
+      🚪 Cerrar sesión
+    </button>
+
+    <div id="mensaje" class="mensaje"></div>
+  </div>
+
+</main>
+
+<script>
+
+const SUPABASE_URL = "https://gyfzbpvxpklgoxrhvonm.supabase.co";
+
+const SUPABASE_KEY = "sb_publishable_Jwx0bD9qPWvaWYiSmlPHZg_U3OlXsbX";
+
+const supabaseClient = supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
+async function comprobarSesion() {
+
+  const { data, error } = await supabaseClient.auth.getSession();
+
+  if (error || !data.session) {
+    window.location.href = "index.html";
+    return;
+  }
+
+  document.getElementById("usuario").innerHTML =
+    "✅ Sesión iniciada correctamente.";
+}
+
+async function cerrarSesion() {
+
+  await supabaseClient.auth.signOut();
+
+  window.location.href = "index.html";
+}
+
+comprobarSesion();
+
+</script>
+
+</body>
+</html>
