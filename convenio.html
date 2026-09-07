@@ -1,149 +1,381 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Convenio y licencias - Maflow</title>
+<title>Convenio y licencias - Maflow</title>
 
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+<style>
+*{
+  box-sizing:border-box;
+}
 
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f3f6f9;
-      color: #222;
-    }
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:#f3f6f9;
+  color:#17212b;
+}
 
-    header {
-      background: linear-gradient(135deg, #075985, #0284c7);
-      color: white;
-      padding: 25px 20px;
-      text-align: center;
-    }
+.phone{
+  max-width:430px;
+  margin:0 auto;
+  min-height:100vh;
+  background:#f3f6f9;
+}
 
-    header h1 {
-      margin: 0;
-      font-size: 23px;
-    }
+.header{
+  background:linear-gradient(145deg,#173f5f,#20639b);
+  color:white;
+  padding:28px 22px 25px;
+  border-radius:0 0 28px 28px;
+}
 
-    header p {
-      margin: 8px 0 0;
-      opacity: .9;
-    }
+.badge{
+  display:inline-block;
+  font-size:12px;
+  font-weight:bold;
+  letter-spacing:.7px;
+  background:rgba(255,255,255,.15);
+  padding:7px 10px;
+  border-radius:20px;
+  margin-bottom:14px;
+}
 
-    main {
-      max-width: 700px;
-      margin: auto;
-      padding: 18px;
-    }
+h1{
+  font-size:25px;
+  line-height:1.1;
+  margin:0 0 8px;
+}
 
-    .volver {
-      display: block;
-      text-decoration: none;
-      text-align: center;
-      background: #075985;
-      color: white;
-      padding: 13px;
-      border-radius: 12px;
-      margin-bottom: 15px;
-      font-weight: bold;
-    }
+.subtitle{
+  font-size:14px;
+  opacity:.9;
+  margin:0;
+}
 
-    .card {
-      background: white;
-      border-radius: 18px;
-      padding: 20px;
-      margin-bottom: 15px;
-      box-shadow: 0 3px 12px rgba(0,0,0,.08);
-    }
+.content{
+  padding:18px 16px 35px;
+}
 
-    .card h2 {
-      margin-top: 0;
-      color: #075985;
-      font-size: 20px;
-    }
+.volver{
+  display:block;
+  text-decoration:none;
+  text-align:center;
+  background:white;
+  color:#173f5f;
+  padding:13px;
+  border-radius:13px;
+  margin-bottom:15px;
+  font-weight:bold;
+  border:1px solid #e2e7ec;
+}
 
-    .card p {
-      font-size: 15px;
-      line-height: 1.5;
-      color: #555;
-    }
+.card{
+  background:white;
+  border:1px solid #e2e7ec;
+  border-radius:20px;
+  padding:18px;
+  margin-bottom:14px;
+  box-shadow:0 5px 16px rgba(22,34,46,.05);
+}
 
-    .boton {
-      display: block;
-      text-align: center;
-      background: #075985;
-      color: white;
-      text-decoration: none;
-      padding: 13px;
-      border-radius: 12px;
-      margin-top: 12px;
-      font-weight: bold;
-    }
+.icon{
+  width:48px;
+  height:48px;
+  border-radius:15px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:25px;
+  background:#eef3f7;
+  margin-bottom:13px;
+}
 
-    .aviso {
-      background: #e0f2fe;
-      border-radius: 12px;
-      padding: 14px;
-      font-size: 14px;
-      line-height: 1.4;
-    }
-  </style>
+.card h2{
+  font-size:17px;
+  margin:0 0 7px;
+}
+
+.card p{
+  font-size:13px;
+  line-height:1.45;
+  color:#5d6874;
+  margin:0 0 12px;
+}
+
+.dato{
+  background:#f4f7fa;
+  border-radius:12px;
+  padding:11px;
+  margin-top:9px;
+  font-size:13px;
+  line-height:1.4;
+}
+
+.dato strong{
+  color:#173f5f;
+}
+
+.boton{
+  display:block;
+  text-decoration:none;
+  text-align:center;
+  background:#173f5f;
+  color:white;
+  padding:12px;
+  border-radius:12px;
+  font-weight:bold;
+  margin-top:12px;
+}
+
+.aviso{
+  background:#fff7ed;
+  border:1px solid #fed7aa;
+  border-radius:18px;
+  padding:15px;
+  font-size:12px;
+  line-height:1.5;
+  color:#7c4a03;
+  margin-top:18px;
+}
+</style>
 </head>
 
 <body>
 
-<header>
+<div class="phone">
+
+<header class="header">
+
+  <div class="badge">CONVENIO COLECTIVO</div>
+
   <h1>📄 Convenio y licencias</h1>
-  <p>Comité de Empresa Maflow</p>
+
+  <p class="subtitle">
+    Comité de Empresa Maflow
+  </p>
+
 </header>
 
-<main>
+<main class="content">
 
-  <a class="volver" href="index.html">
-    ← Volver a la página principal
-  </a>
+<a class="volver" href="index.html">
+  ← Volver a la página principal
+</a>
 
-  <div class="card">
-    <h2>📘 Convenio colectivo</h2>
 
-    <p>
-      En este apartado podrás consultar el convenio colectivo
-      aplicable a los trabajadores de Maflow.
-    </p>
+<div class="card">
 
-    <a class="boton" href="#">
-      📄 Consultar convenio
-    </a>
+  <div class="icon">📘</div>
+
+  <h2>Convenio colectivo 2025-2028</h2>
+
+  <p>
+    Convenio Colectivo para el sector de la Industria
+    Siderometalúrgica de Cantabria.
+  </p>
+
+  <div class="dato">
+    <strong>Vigencia:</strong><br>
+    Del 1 de enero de 2025 al 31 de diciembre de 2028.
   </div>
 
-  <div class="card">
-    <h2>📝 Permisos y licencias</h2>
-
-    <p>
-      Información sobre permisos, licencias y derechos de los
-      trabajadores.
-    </p>
-
-    <a class="boton" href="#">
-      📋 Ver permisos y licencias
-    </a>
+  <div class="dato">
+    <strong>Ámbito territorial:</strong><br>
+    Comunidad Autónoma de Cantabria.
   </div>
 
-  <div class="card">
-    <h2>ℹ️ Información</h2>
+  <!-- Cuando subamos el PDF a GitHub,
+       aquí pondremos el enlace al documento completo -->
 
-    <div class="aviso">
-      Esta sección se irá actualizando con la información,
-      documentación y acuerdos que facilite el Comité de Empresa.
-    </div>
+</div>
+
+
+<div class="card">
+
+  <div class="icon">🕐</div>
+
+  <h2>Jornada y calendario laboral</h2>
+
+  <p>
+    La dirección de la empresa y el Comité o los Delegados
+    de Personal elaborarán el calendario laboral dentro de
+    los dos primeros meses de cada año.
+  </p>
+
+  <div class="dato">
+    El calendario debe incluir las horas de entrada y salida,
+    los descansos y las fiestas correspondientes.
   </div>
+
+</div>
+
+
+<div class="card">
+
+  <div class="icon">🏖️</div>
+
+  <h2>Vacaciones</h2>
+
+  <p>
+    Las personas trabajadoras tienen derecho a vacaciones
+    anuales retribuidas.
+  </p>
+
+  <div class="dato">
+    <strong>30 días naturales</strong> o
+    <strong>26 días laborables</strong>.
+  </div>
+
+  <div class="dato">
+    Al menos <strong>21 días naturales</strong> deberán
+    disfrutarse de forma ininterrumpida.
+  </div>
+
+  <div class="dato">
+    El período vacacional deberá anunciarse con un mínimo
+    de <strong>75 días de antelación</strong>.
+  </div>
+
+</div>
+
+
+<div class="card">
+
+  <div class="icon">📝</div>
+
+  <h2>Licencias retribuidas</h2>
+
+  <p>
+    El artículo 26 recoge diferentes situaciones en las que
+    la persona trabajadora puede ausentarse del trabajo con
+    derecho a remuneración, previo aviso y justificación.
+  </p>
+
+  <div class="dato">
+    <strong>💍 Matrimonio o pareja de hecho:</strong><br>
+    15 días naturales.
+  </div>
+
+  <div class="dato">
+    <strong>👶 Nacimiento de hijo:</strong><br>
+    2 días laborables, pudiendo repartirse en cuatro medios días.
+  </div>
+
+  <div class="dato">
+    <strong>🏥 Accidente o enfermedad grave:</strong><br>
+    5 días en los supuestos establecidos por el convenio.
+  </div>
+
+</div>
+
+
+<div class="card">
+
+  <div class="icon">💶</div>
+
+  <h2>Salarios y pluses</h2>
+
+  <p>
+    El convenio establece las condiciones salariales y los
+    diferentes complementos aplicables al personal incluido
+    en su ámbito.
+  </p>
+
+  <div class="dato">
+    <strong>2025:</strong> incremento salarial del 3,5%.
+  </div>
+
+  <div class="dato">
+    <strong>2026, 2027 y 2028:</strong> incremento equivalente
+    al IPC real del año anterior más 0,7 puntos.
+  </div>
+
+  <div class="dato">
+    El convenio también contempla el Plus de Convenio y
+    otros complementos según las condiciones establecidas.
+  </div>
+
+</div>
+
+
+<div class="card">
+
+  <div class="icon">🦺</div>
+
+  <h2>Seguridad y salud laboral</h2>
+
+  <p>
+    El convenio contempla medidas y actuaciones relacionadas
+    con la seguridad y la salud laboral.
+  </p>
+
+  <div class="dato">
+    Se establece una Comisión Sectorial de Seguridad y
+    Salud Laboral.
+  </div>
+
+  <div class="dato">
+    Se contempla formación para Delegados de Prevención
+    y responsables de empresa.
+  </div>
+
+  <div class="dato">
+    También se prevén campañas de información y actuaciones
+    relacionadas con los riesgos laborales.
+  </div>
+
+</div>
+
+
+<div class="card">
+
+  <div class="icon">⚖️</div>
+
+  <h2>Igualdad y acoso</h2>
+
+  <p>
+    El convenio recoge políticas de igualdad y contempla
+    la elaboración y difusión de protocolos modelo
+    antiacoso y LGTBI.
+  </p>
+
+</div>
+
+
+<div class="card">
+
+  <div class="icon">👥</div>
+
+  <h2>Información para los trabajadores</h2>
+
+  <p>
+    Desde esta sección iremos incorporando información
+    práctica sobre el convenio, permisos, licencias,
+    salarios y otros derechos laborales.
+  </p>
+
+</div>
+
+
+<div class="aviso">
+
+  ⚠️ <strong>Información importante</strong><br><br>
+
+  Esta página tiene carácter informativo y está basada
+  en el Convenio Colectivo para la Industria Siderometalúrgica
+  de Cantabria 2025-2028.
+
+  Para consultar el texto completo y sus anexos,
+  deberá utilizarse el convenio oficial.
+
+</div>
 
 </main>
+
+</div>
 
 </body>
 </html>
