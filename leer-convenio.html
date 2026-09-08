@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Leer Convenio - Maflow</title>
+
+<style>
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  background:#eef2f5;
+  font-family:Arial,sans-serif;
+}
+
+header{
+  background:linear-gradient(135deg,#075985,#0284c7);
+  color:white;
+  padding:20px;
+  text-align:center;
+}
+
+header h1{
+  margin:0;
+  font-size:21px;
+}
+
+.volver{
+  display:block;
+  margin:15px;
+  padding:12px;
+  background:#075985;
+  color:white;
+  text-decoration:none;
+  text-align:center;
+  border-radius:12px;
+  font-weight:bold;
+}
+
+#visor{
+  padding:10px;
+  text-align:center;
+}
+
+canvas{
+  display:block;
+  margin:12px auto;
+  max-width:100%;
+  height:auto;
+  background:white;
+  box-shadow:0 2px 8px rgba(0,0,0,.15);
+}
+
+.controles{
+  position:sticky;
+  bottom:0;
+  background:white;
+  padding:12px;
+  display:flex;
+  justify-content:center;
+  gap:8px;
+  border-top:1px solid #ddd;
+}
+
+button{
+  border:0;
+  background:#075985;
+  color:white;
+  padding:11px 15px;
+  border-radius:10px;
+  font-weight:bold;
+}
+
+#pagina{
+  padding:8px;
+  font-size:13px;
+  color:#555;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>📕 Convenio colectivo 2025-2028</h1>
+</header>
+
+<a class="volver" href="convenio.html">
+  ← Volver a Convenio y licencias
+</a>
+
+<div id="pagina">Cargando convenio...</div>
+
+<div id="visor"></div>
+
+<div class="controles">
+  <button onclick="anterior()">◀ Anterior</button>
+  <button onclick="siguiente()">Siguiente ▶</button>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+
+<script>
+
+const PDF = "convenio2025-2028.pdf";
+
+const visor = document.getElementById("visor");
+const paginaTexto = document.getElementById("pagina");
+
+let pdf = null;
+let paginaActual = 1;
+
+pdfjsLib.GlobalWorkerOptions.workerSrc =
+"https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+
+pdfjsLib.getDocument(PDF).promise.then(function(documento){
+
+  pdf = documento;
+
+  mostrarPagina(paginaActual);
+
+}).catch(function(){
+
+  paginaTexto.innerText =
+  "❌ No se ha podido cargar el convenio.";
+
+});
+
+function mostrarPagina(numero){
+
+  pdf.getPage(numero).then(function(page){
+
+    const viewport = page.getViewport({scale:1.5});
+
+    const canvas = document.createElement("canvas");
+
+    const contexto = canvas.getContext("2d");
+
+    canvas.width = viewport.width;
+    canvas.height = viewport.height;
+
+    visor.innerHTML = "";
+    visor.appendChild(canvas);
+
+    page.render({
+      canvasContext: contexto,
+      viewport: viewport
+    });
+
+    paginaTexto.innerText =
+      "Página " + numero + " de " + pdf.numPages;
+
+  });
+
+}
+
+function anterior(){
+
+  if(paginaActual > 1){
+
+    paginaActual--;
+
+    mostrarPagina(paginaActual);
+
+    window.scrollTo(0,0);
+
+  }
+
+}
+
+function siguiente(){
+
+  if(paginaActual < pdf.numPages){
+
+    paginaActual++;
+
+    mostrarPagina(paginaActual);
+
+    window.scrollTo(0,0);
+
+  }
+
+}
+
+</script>
+
+</body>
+</html>
