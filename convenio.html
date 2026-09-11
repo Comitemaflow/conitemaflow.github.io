@@ -315,6 +315,22 @@ style="cursor:zoom-in;"
 </div>
 
 </main>
+<div id="visorTabla" class="visor-tabla">
+  <span class="cerrar" onclick="cerrarTabla()">✕</span>
+  <img
+    src="/conitemaflow.github.io/IMG_20260907_190324.jpg"
+    alt="Tabla salarial ampliada"
+  >
+</div>
 
+<script>
+function ampliarTabla() {
+  document.getElementById("visorTabla").style.display = "flex";
+}
+
+function cerrarTabla() {
+  document.getElementById("visorTabla").style.display = "none";
+}
+</script>
 </body>
 </html>
