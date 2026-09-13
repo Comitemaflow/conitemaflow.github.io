@@ -254,12 +254,12 @@ button{
 
 </div>
 
-<div class="notice">
+<div class="notice" id="ultimo-comunicado">
   <div class="notice-head">
-    <strong>📌 Último comunicado</strong>
-    <span class="date">Próximamente</span>
+    <strong id="noticia-titulo">📌 Último comunicado</strong>
+    <span class="date" id="noticia-fecha">Cargando...</span>
   </div>
-  <p>Aquí aparecerán las últimas noticias y comunicados que publiques desde tu área privada.</p>
+  <p id="noticia-contenido">Cargando el último comunicado...</p>
 </div>
 
 <div class="private">
@@ -295,7 +295,46 @@ const supabaseClient = supabase.createClient(
   SUPABASE_URL,
   SUPABASE_KEY
 );
+async function cargarUltimaNoticia(){
 
+  const titulo = document.getElementById("noticia-titulo");
+  const fecha = document.getElementById("noticia-fecha");
+  const contenido = document.getElementById("noticia-contenido");
+
+  const { data, error } = await supabaseClient
+    .from("noticias")
+    .select("titulo, contenido, fecha, created_at")
+    .eq("publicado", true)
+    .order("fecha", { ascending:false })
+    .order("created_at", { ascending:false })
+    .limit(1)
+    .maybeSingle();
+
+  if(error){
+    titulo.innerText = "📌 Último comunicado";
+    fecha.innerText = "";
+    contenido.innerText = "No se ha podido cargar el comunicado.";
+    return;
+  }
+
+  if(!data){
+    titulo.innerText = "📌 Último comunicado";
+    fecha.innerText = "";
+    contenido.innerText = "Todavía no hay noticias publicadas.";
+    return;
+  }
+
+  titulo.innerText = "📌 " + data.titulo;
+
+  const partes = data.fecha.split("-");
+  fecha.innerText = partes.length === 3
+    ? partes[2] + "/" + partes[1] + "/" + partes[0]
+    : data.fecha;
+
+  contenido.innerText = data.contenido;
+}
+
+document.addEventListener("DOMContentLoaded", cargarUltimaNoticia);
 async function entrar(){
 
   const email = document.getElementById("email").value;
