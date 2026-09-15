@@ -106,10 +106,38 @@
       documentos, fotografías y calendario de la empresa.
     </p>
 
-    <button onclick="alert('Próximamente podrás añadir noticias.')">
-      📢 Gestionar noticias
-    </button>
+    <div style="margin-top:15px;">
 
+  <input
+    id="noticiaTitulo"
+    type="text"
+    placeholder="Título de la noticia"
+    style="width:100%;padding:12px;border:1px solid #ddd;border-radius:10px;margin-bottom:10px;"
+  >
+
+  <textarea
+    id="noticiaContenido"
+    placeholder="Escribe aquí el contenido de la noticia..."
+    rows="5"
+    style="width:100%;padding:12px;border:1px solid #ddd;border-radius:10px;resize:vertical;"
+  ></textarea>
+
+  <input
+    id="noticiaFecha"
+    type="date"
+    style="width:100%;padding:12px;border:1px solid #ddd;border-radius:10px;margin-top:10px;"
+  >
+
+  <button onclick="guardarNoticia()">
+    📢 Publicar noticia
+  </button>
+
+  <div
+    id="mensajeNoticia"
+    style="margin-top:12px;padding:10px;border-radius:10px;background:#e0f2fe;display:none;"
+  ></div>
+
+</div>
     <button onclick="alert('Próximamente podrás subir documentos.')">
       📄 Gestionar documentos
     </button>
@@ -147,7 +175,43 @@ const supabaseClient = supabase.createClient(
   SUPABASE_URL,
   SUPABASE_KEY
 );
+async function guardarNoticia() {
 
+  const titulo = document.getElementById("noticiaTitulo").value.trim();
+  const contenido = document.getElementById("noticiaContenido").value.trim();
+  const fecha = document.getElementById("noticiaFecha").value;
+  const mensaje = document.getElementById("mensajeNoticia");
+
+  if (!titulo || !contenido || !fecha) {
+    mensaje.style.display = "block";
+    mensaje.innerText = "⚠️ Completa el título, el contenido y la fecha.";
+    return;
+  }
+
+  mensaje.style.display = "block";
+  mensaje.innerText = "Guardando noticia...";
+
+  const { error } = await supabaseClient
+    .from("noticias")
+    .insert({
+      titulo: titulo,
+      contenido: contenido,
+      fecha: fecha,
+      publicado: true
+    });
+
+  if (error) {
+    console.error(error);
+    mensaje.innerText = "❌ No se ha podido guardar la noticia.";
+    return;
+  }
+
+  mensaje.innerText = "✅ Noticia publicada correctamente.";
+
+  document.getElementById("noticiaTitulo").value = "";
+  document.getElementById("noticiaContenido").value = "";
+  document.getElementById("noticiaFecha").value = "";
+}
 async function comprobarSesion() {
 
   const { data, error } = await supabaseClient.auth.getSession();
