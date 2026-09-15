@@ -136,7 +136,15 @@
     id="mensajeNoticia"
     style="margin-top:12px;padding:10px;border-radius:10px;background:#e0f2fe;display:none;"
   ></div>
+<div style="margin-top:20px;">
 
+  <h3 style="color:#075985;">📰 Noticias publicadas</h3>
+
+  <div id="listaNoticias">
+    Cargando noticias...
+  </div>
+
+</div>
 </div>
     <button onclick="alert('Próximamente podrás subir documentos.')">
       📄 Gestionar documentos
@@ -176,7 +184,51 @@ const supabaseClient = supabase.createClient(
   SUPABASE_KEY
 );
 async function guardarNoticia() {
+async function cargarNoticias() {
 
+  const lista = document.getElementById("listaNoticias");
+
+  const { data, error } = await supabaseClient
+    .from("noticias")
+    .select("id, titulo, contenido, fecha, publicado")
+    .order("fecha", { ascending: false });
+
+  if (error) {
+    console.error(error);
+    lista.innerHTML = "❌ No se han podido cargar las noticias.";
+    return;
+  }
+
+  if (!data || data.length === 0) {
+    lista.innerHTML = "Todavía no hay noticias.";
+    return;
+  }
+
+  lista.innerHTML = "";
+
+  data.forEach(function(noticia) {
+
+    const bloque = document.createElement("div");
+
+    bloque.style.background = "#f3f6f9";
+    bloque.style.padding = "15px";
+    bloque.style.borderRadius = "12px";
+    bloque.style.marginBottom = "12px";
+
+    bloque.innerHTML = `
+      <strong>${noticia.titulo}</strong>
+      <div style="font-size:13px;color:#666;margin-top:5px;">
+        ${noticia.fecha}
+      </div>
+      <p>${noticia.contenido}</p>
+      <div style="font-size:13px;">
+        ${noticia.publicado ? "🟢 Publicada" : "⚪ Oculta"}
+      </div>
+    `;
+
+    lista.appendChild(bloque);
+  });
+}
   const titulo = document.getElementById("noticiaTitulo").value.trim();
   const contenido = document.getElementById("noticiaContenido").value.trim();
   const fecha = document.getElementById("noticiaFecha").value;
@@ -233,7 +285,7 @@ async function cerrarSesion() {
 }
 
 comprobarSesion();
-
+cargarNoticias();
 </script>
 
 </body>
