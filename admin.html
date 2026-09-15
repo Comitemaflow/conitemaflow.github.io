@@ -183,7 +183,48 @@ const supabaseClient = supabase.createClient(
   SUPABASE_URL,
   SUPABASE_KEY
 );
-async function cargarNoticias() { carga
+async function guardarNoticia() {
+
+  const titulo = document.getElementById("noticiaTitulo").value.trim();
+  const contenido = document.getElementById("noticiaContenido").value.trim();
+  const fecha = document.getElementById("noticiaFecha").value;
+  const mensaje = document.getElementById("mensajeNoticia");
+
+  if (!titulo || !contenido || !fecha) {
+    mensaje.style.display = "block";
+    mensaje.innerText = "⚠️ Completa el título, el contenido y la fecha.";
+    return;
+  }
+
+  mensaje.style.display = "block";
+  mensaje.innerText = "Guardando noticia...";
+
+  const { error } = await supabaseClient
+    .from("noticias")
+    .insert({
+      titulo: titulo,
+      contenido: contenido,
+      fecha: fecha,
+      publicado: true
+    });
+
+  if (error) {
+    console.error(error);
+    mensaje.innerText = "❌ No se ha podido guardar la noticia.";
+    return;
+  }
+
+  mensaje.innerText = "✅ Noticia publicada correctamente.";
+
+  document.getElementById("noticiaTitulo").value = "";
+  document.getElementById("noticiaContenido").value = "";
+  document.getElementById("noticiaFecha").value = "";
+
+  cargarNoticias();
+}
+
+
+async function cargarNoticias() {
 
   const lista = document.getElementById("listaNoticias");
 
@@ -227,41 +268,6 @@ async function cargarNoticias() { carga
 
     lista.appendChild(bloque);
   });
-}
-  const titulo = document.getElementById("noticiaTitulo").value.trim();
-  const contenido = document.getElementById("noticiaContenido").value.trim();
-  const fecha = document.getElementById("noticiaFecha").value;
-  const mensaje = document.getElementById("mensajeNoticia");
-
-  if (!titulo || !contenido || !fecha) {
-    mensaje.style.display = "block";
-    mensaje.innerText = "⚠️ Completa el título, el contenido y la fecha.";
-    return;
-  }
-
-  mensaje.style.display = "block";
-  mensaje.innerText = "Guardando noticia...";
-
-  const { error } = await supabaseClient
-    .from("noticias")
-    .insert({
-      titulo: titulo,
-      contenido: contenido,
-      fecha: fecha,
-      publicado: true
-    });
-
-  if (error) {
-    console.error(error);
-    mensaje.innerText = "❌ No se ha podido guardar la noticia.";
-    return;
-  }
-
-  mensaje.innerText = "✅ Noticia publicada correctamente.";
-
-  document.getElementById("noticiaTitulo").value = "";
-  document.getElementById("noticiaContenido").value = "";
-  document.getElementById("noticiaFecha").value = "";
 }
 async function comprobarSesion() {
 
