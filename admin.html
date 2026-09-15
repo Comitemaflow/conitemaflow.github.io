@@ -284,8 +284,9 @@ async function cerrarSesion() {
   window.location.href = "index.html";
 }
 
-comprobarSesion();
-cargarNoticias();
+comprobarSesion().then(() => {
+  cargarNoticias();
+});
 </script>
 
 </body>
