@@ -183,6 +183,50 @@ const supabaseClient = supabase.createClient(
   SUPABASE_URL,
   SUPABASE_KEY
 );
+  async function editarNoticia(id) {
+
+  const { data, error } = await supabaseClient
+    .from("noticias")
+    .select("titulo, contenido, fecha")
+    .eq("id", id)
+    .single();
+
+  if (error) {
+    alert("❌ No se ha podido cargar la noticia.");
+    return;
+  }
+
+  const nuevoTitulo = prompt("Título de la noticia:", data.titulo);
+
+  if (nuevoTitulo === null) return;
+
+  const nuevoContenido = prompt("Contenido de la noticia:", data.contenido);
+
+  if (nuevoContenido === null) return;
+
+  const nuevaFecha = prompt("Fecha (AAAA-MM-DD):", data.fecha);
+
+  if (nuevaFecha === null) return;
+
+  const { error: errorActualizacion } = await supabaseClient
+    .from("noticias")
+    .update({
+      titulo: nuevoTitulo,
+      contenido: nuevoContenido,
+      fecha: nuevaFecha
+    })
+    .eq("id", id);
+
+  if (errorActualizacion) {
+    console.error(errorActualizacion);
+    alert("❌ No se ha podido actualizar la noticia.");
+    return;
+  }
+
+  alert("✅ Noticia actualizada correctamente.");
+
+  cargarNoticias();
+}
 async function guardarNoticia() {
 
   const titulo = document.getElementById("noticiaTitulo").value.trim();
