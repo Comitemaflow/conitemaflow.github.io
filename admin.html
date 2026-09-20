@@ -264,6 +264,11 @@ async function cargarNoticias() {
       <div style="font-size:13px;">
         ${noticia.publicado ? "🟢 Publicada" : "⚪ Oculta"}
       </div>
+            <div style="margin-top:10px;">
+        <button onclick="editarNoticia('${noticia.id}')">
+          ✏️ Editar
+        </button>
+      </div>
     `;
 
     lista.appendChild(bloque);
