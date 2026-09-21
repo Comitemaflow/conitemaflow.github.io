@@ -336,6 +336,13 @@ async function cargarNoticias() {
           ✏️ Editar
         </button>
       </div>
+      <div style="margin-top:10px;">
+  <button
+    style="background:#dc2626;"
+    onclick="borrarNoticia('${noticia.id}')">
+    🗑️ Borrar
+  </button>
+</div>
     `;
 
     lista.appendChild(bloque);
