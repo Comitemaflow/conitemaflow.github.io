@@ -227,6 +227,29 @@ const supabaseClient = supabase.createClient(
 
   cargarNoticias();
 }
+  async function borrarNoticia(id) {
+
+  const confirmar = confirm(
+    "¿Seguro que quieres borrar esta noticia?"
+  );
+
+  if (!confirmar) return;
+
+  const { error } = await supabaseClient
+    .from("noticias")
+    .delete()
+    .eq("id", id);
+
+  if (error) {
+    console.error(error);
+    alert("❌ No se ha podido borrar la noticia.");
+    return;
+  }
+
+  alert("✅ Noticia borrada correctamente.");
+
+  cargarNoticias();
+}
 async function guardarNoticia() {
 
   const titulo = document.getElementById("noticiaTitulo").value.trim();
