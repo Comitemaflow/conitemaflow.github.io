@@ -146,9 +146,40 @@
 
 </div>
 </div>
-    <button onclick="alert('Próximamente podrás subir documentos.')">
-      📄 Gestionar documentos
-    </button>
+    <div style="margin-top:20px;padding:15px;background:#f8fafc;border-radius:12px;">
+  <h3 style="color:#075985;margin-top:0;">📄 Gestionar documentos</h3>
+
+  <input
+    id="documentoNombre"
+    type="text"
+    placeholder="Nombre del documento"
+    style="width:100%;padding:12px;border:1px solid #ddd;border-radius:10px;margin-bottom:10px;"
+  >
+
+  <input
+    id="documentoArchivo"
+    type="file"
+    accept=".pdf,.jpg,.jpeg,.png"
+    style="width:100%;padding:10px;background:white;border-radius:10px;"
+  >
+
+  <button onclick="subirDocumento()">
+    📤 Subir documento
+  </button>
+
+  <div
+    id="mensajeDocumento"
+    style="margin-top:12px;padding:10px;border-radius:10px;background:#e0f2fe;display:none;"
+  ></div>
+
+  <h3 style="color:#075985;margin-top:20px;">
+    📚 Documentos disponibles
+  </h3>
+
+  <div id="listaDocumentos">
+    Cargando documentos...
+  </div>
+</div>
 
     <button onclick="alert('Próximamente podrás gestionar fotografías.')">
       📷 Gestionar fotos
@@ -360,7 +391,58 @@ async function comprobarSesion() {
   document.getElementById("usuario").innerHTML =
     "✅ Sesión iniciada correctamente.";
 }
+async function cargarDocumentos() {
 
+  const lista = document.getElementById("listaDocumentos");
+
+  const { data, error } = await supabaseClient
+    .from("documentos")
+    .select("*")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error(error);
+    lista.innerHTML = "❌ No se han podido cargar los documentos.";
+    return;
+  }
+
+  if (!data || data.length === 0) {
+    lista.innerHTML = "Todavía no hay documentos.";
+    return;
+  }
+
+  lista.innerHTML = "";
+
+  data.forEach(function(doc) {
+
+    const bloque = document.createElement("div");
+
+    bloque.style.background = "#f3f6f9";
+    bloque.style.padding = "15px";
+    bloque.style.borderRadius = "12px";
+    bloque.style.marginBottom = "12px";
+
+    bloque.innerHTML = `
+      <strong>📄 ${doc.nombre}</strong>
+
+      <div style="margin-top:10px;">
+        <a href="${doc.url}" target="_blank">
+          Ver documento
+        </a>
+      </div>
+
+      <div style="margin-top:10px;">
+        <button
+          style="background:#dc2626;"
+          onclick="borrarDocumento('${doc.id}')">
+          🗑️ Borrar
+        </button>
+      </div>
+    `;
+
+    lista.appendChild(bloque);
+  });
+}
 async function cerrarSesion() {
 
   await supabaseClient.auth.signOut();
@@ -370,6 +452,8 @@ async function cerrarSesion() {
 
 comprobarSesion().then(() => {
   cargarNoticias();
+  cargarDocumentos();
+});
 });
 </script>
 
