@@ -392,7 +392,67 @@ async function comprobarSesion() {
     "✅ Sesión iniciada correctamente.";
 }
 async function cargarDocumentos() {
+async function subirDocumento() {
 
+  const nombre = document.getElementById("documentoNombre").value.trim();
+  const archivo = document.getElementById("documentoArchivo").files[0];
+  const mensaje = document.getElementById("mensajeDocumento");
+
+  if (!nombre || !archivo) {
+    mensaje.style.display = "block";
+    mensaje.innerText = "⚠️ Pon un nombre y selecciona un archivo.";
+    return;
+  }
+
+  mensaje.style.display = "block";
+  mensaje.innerText = "📤 Subiendo documento...";
+
+  const nombreSeguro = archivo.name.replace(/[^a-zA-Z0-9._-]/g, "_");
+  const ruta = Date.now() + "_" + nombreSeguro;
+
+  const { error: errorSubida } = await supabaseClient.storage
+    .from("documentos")
+    .upload(ruta, archivo, {
+      upsert: false
+    });
+
+  if (errorSubida) {
+    console.error(errorSubida);
+    mensaje.innerText = "❌ No se ha podido subir el archivo.";
+    return;
+  }
+
+  const url =
+    `${SUPABASE_URL}/storage/v1/object/public/documentos/${ruta}`;
+
+  const { error: errorBD } = await supabaseClient
+    .from("documentos")
+    .insert({
+      nombre: nombre,
+      ruta: ruta,
+      url: url,
+      categoria: "prevencion",
+      publicado: true
+    });
+
+  if (errorBD) {
+
+    await supabaseClient.storage
+      .from("documentos")
+      .remove([ruta]);
+
+    console.error(errorBD);
+    mensaje.innerText = "❌ No se ha podido guardar el documento.";
+    return;
+  }
+
+  mensaje.innerText = "✅ Documento subido correctamente.";
+
+  document.getElementById("documentoNombre").value = "";
+  document.getElementById("documentoArchivo").value = "";
+
+  cargarDocumentos();
+}
   const lista = document.getElementById("listaDocumentos");
 
   const { data, error } = await supabaseClient
