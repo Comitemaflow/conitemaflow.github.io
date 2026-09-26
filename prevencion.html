@@ -4,7 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Prevención y seguridad - Maflow</title>
+  <title>Documentos de prevención - Maflow</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
     * {
@@ -69,12 +71,41 @@
 
     .card p {
       line-height: 1.5;
-      margin-bottom: 0;
     }
 
     .icono {
       font-size: 32px;
       margin-bottom: 8px;
+    }
+
+    .documento {
+      background: #f8fafc;
+      border-radius: 14px;
+      padding: 15px;
+      margin-top: 12px;
+      border: 1px solid #e2e8f0;
+    }
+
+    .documento strong {
+      color: #075985;
+      font-size: 16px;
+    }
+
+    .boton-documento {
+      display: block;
+      text-decoration: none;
+      text-align: center;
+      background: #075985;
+      color: white;
+      padding: 12px;
+      border-radius: 10px;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    .sin-documentos {
+      color: #666;
+      line-height: 1.5;
     }
   </style>
 </head>
@@ -82,162 +113,145 @@
 <body>
 
 <header>
-  <h1>🦺 Prevención y seguridad</h1>
+  <h1>📄 Documentos de prevención</h1>
   <p>Comité de Empresa Maflow</p>
 </header>
 
 <main>
 
-  <a class="volver" href="index.html">
-    ← Volver a la página principal
+  <a class="volver" href="prevencion.html">
+    ← Volver a prevención y seguridad
   </a>
 
+
+  <!-- INFORMACIÓN -->
   <div class="card">
-  <div class="icono">🌡️</div>
 
-  <h2>Estrés térmico y olas de calor</h2>
+    <div class="icono">🦺</div>
 
-  <p>
-    Cuando las temperaturas son elevadas, el calor puede afectar a la salud
-    y aumentar el riesgo de accidentes y problemas relacionados con el
-    estrés térmico.
-  </p>
+    <h2>Documentos de prevención</h2>
 
-  <h3>💧 Hidratación</h3>
-  <p>
-    Beber agua con frecuencia, aunque no se tenga sed, y mantener una
-    hidratación adecuada durante toda la jornada.
-  </p>
-
-  <h3>⏱️ Pausas y descansos</h3>
-  <p>
-    Realizar pausas periódicas para reducir la exposición al calor,
-    especialmente durante los periodos de mayor temperatura.
-  </p>
-
-  <h3>🦺 Medidas preventivas</h3>
-  <p>
-    La empresa debe evaluar el riesgo por exposición a temperaturas elevadas
-    y adoptar las medidas preventivas necesarias para proteger a los
-    trabajadores.
-  </p>
-
-  <h3>📢 Información a los trabajadores</h3>
-  <p>
-    Los trabajadores deben conocer los riesgos relacionados con el calor,
-    las medidas preventivas y las actuaciones previstas ante episodios de
-    temperaturas elevadas.
-  </p>
-</div>
-<div class="card">
-  <div class="icono">💧</div>
-
-  <h2>Pausas e hidratación</h2>
-
-  <p>
-    Durante los periodos de calor es importante mantener una hidratación
-    adecuada y realizar pausas periódicas.
-  </p>
-
-  <div style="overflow-x:auto; margin-top:15px;">
-    <table style="width:100%; border-collapse:collapse; font-size:14px;">
-      <tr style="background:#075985; color:white;">
-        <th style="padding:10px; text-align:left;">Medida</th>
-        <th style="padding:10px; text-align:left;">Recomendación</th>
-      </tr>
-
-      <tr>
-        <td style="padding:10px; border-bottom:1px solid #ddd;">💧 Agua</td>
-        <td style="padding:10px; border-bottom:1px solid #ddd;">
-          Beber agua con frecuencia, aunque no se tenga sed.
-        </td>
-      </tr>
-
-      <tr>
-        <td style="padding:10px; border-bottom:1px solid #ddd;">⏱️ Pausas</td>
-        <td style="padding:10px; border-bottom:1px solid #ddd;">
-          Realizar descansos periódicos para reducir la exposición al calor.
-        </td>
-      </tr>
-
-      <tr>
-        <td style="padding:10px; border-bottom:1px solid #ddd;">🌡️ Calor</td>
-        <td style="padding:10px; border-bottom:1px solid #ddd;">
-          Evitar, cuando sea posible, las zonas más calurosas.
-        </td>
-      </tr>
-
-      <tr>
-        <td style="padding:10px;">🦺 Protección</td>
-        <td style="padding:10px;">
-          Seguir las medidas preventivas establecidas por la empresa.
-        </td>
-      </tr>
-    </table>
-  </div>
-</div>
-  <div class="card">
-  <div class="icono">🚨</div>
-
-  <h2>Protocolo ante olas de calor</h2>
-
-  <p>
-    Ante episodios de temperaturas elevadas, deben adoptarse medidas
-    preventivas para reducir el riesgo de estrés térmico y proteger
-    la seguridad y salud de los trabajadores.
-  </p>
-
-  <h3>🌡️ Antes de la ola de calor</h3>
-  <p>
-    Evaluar las condiciones de trabajo y planificar las medidas necesarias
-    antes de que se produzcan temperaturas especialmente elevadas.
-  </p>
-
-  <h3>💧 Durante la jornada</h3>
-  <p>
-    Garantizar el acceso a agua potable, facilitar pausas y aplicar las
-    medidas preventivas necesarias según las condiciones de trabajo.
-  </p>
-
-  <h3>⚠️ Situaciones de riesgo</h3>
-  <p>
-    Prestar especial atención a los trabajadores que desarrollen tareas
-    con mayor esfuerzo físico o en zonas con mayor acumulación de calor.
-  </p>
-
-  <h3>📢 Información</h3>
-  <p>
-    Los trabajadores deben conocer los riesgos existentes, las medidas
-    preventivas y cómo actuar ante síntomas relacionados con el calor.
-  </p>
-</div>
-  <div class="card">
-    <div class="icono">⚠️</div>
-    <h2>Seguridad en el trabajo</h2>
     <p>
-      Información y recomendaciones sobre seguridad y prevención
-      de riesgos laborales en la empresa.
+      En esta sección encontrarás protocolos, documentos e información
+      relacionada con la prevención de riesgos laborales y la seguridad
+      y salud de los trabajadores.
     </p>
-  </div>
-<a href="documentos-prevencion.html" class="card" style="text-decoration:none;color:inherit;display:block;">
-  <div class="icono">📄</div>
-  <h2>Documentos de prevención</h2>
-  <p>
-    Protocolos, documentos y otra información de interés.
-  </p>
-</a>
-  <div class="card">
-    <div class="icono">🛡️</div>
-    <h2>Salud laboral</h2>
-    <p>
-      Información relacionada con la protección de la salud
-      y las condiciones de trabajo.
-    </p>
+
   </div>
 
- 
+
+  <!-- DOCUMENTOS AUTOMÁTICOS -->
+  <div class="card">
+
+    <div class="icono">📚</div>
+
+    <h2>Documentos disponibles</h2>
+
+    <div id="listaDocumentos">
+      Cargando documentos...
+    </div>
+
+  </div>
+
 
 </main>
+
+
+<script>
+
+const SUPABASE_URL =
+  "https://gyfzbpvxpklgoxrhvonm.supabase.co";
+
+const SUPABASE_KEY =
+  "sb_publishable_Jwx0bD9qPWvaWYiSmlPHZg_U3OlXsbX";
+
+const supabaseClient =
+  supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+
+async function cargarDocumentos() {
+
+  const lista =
+    document.getElementById("listaDocumentos");
+
+
+  const { data, error } =
+    await supabaseClient
+      .from("documentos")
+      .select("nombre, url, categoria, created_at")
+      .eq("publicado", true)
+      .eq("categoria", "prevencion")
+      .order(
+        "created_at",
+        { ascending: false }
+      );
+
+
+  if (error) {
+
+    console.error(error);
+
+    lista.innerHTML =
+      "<p class='sin-documentos'>❌ No se han podido cargar los documentos.</p>";
+
+    return;
+  }
+
+
+  if (!data || data.length === 0) {
+
+    lista.innerHTML = `
+      <p class="sin-documentos">
+        Todavía no hay documentos publicados.
+      </p>
+    `;
+
+    return;
+  }
+
+
+  lista.innerHTML = "";
+
+
+  data.forEach(function(doc) {
+
+    const bloque =
+      document.createElement("div");
+
+    bloque.className =
+      "documento";
+
+
+    bloque.innerHTML = `
+
+      <strong>
+        📄 ${doc.nombre}
+      </strong>
+
+      <a
+        class="boton-documento"
+        href="${doc.url}"
+        target="_blank"
+      >
+        📖 Ver documento
+      </a>
+
+    `;
+
+
+    lista.appendChild(bloque);
+
+  });
+
+}
+
+
+cargarDocumentos();
+
+</script>
 
 </body>
 </html>
