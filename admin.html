@@ -98,88 +98,110 @@
 
 <main>
 
+  <!-- NOTICIAS -->
   <div class="card">
+
     <h2>Panel de administración</h2>
 
     <p>
-      Desde aquí podrás gestionar próximamente las noticias,
-      documentos, fotografías y calendario de la empresa.
+      Desde aquí puedes gestionar las noticias y documentos
+      del Comité de Empresa.
     </p>
 
     <div style="margin-top:15px;">
 
-  <input
-    id="noticiaTitulo"
-    type="text"
-    placeholder="Título de la noticia"
-    style="width:100%;padding:12px;border:1px solid #ddd;border-radius:10px;margin-bottom:10px;"
-  >
+      <input
+        id="noticiaTitulo"
+        type="text"
+        placeholder="Título de la noticia"
+        style="width:100%;padding:12px;border:1px solid #ddd;border-radius:10px;margin-bottom:10px;"
+      >
 
-  <textarea
-    id="noticiaContenido"
-    placeholder="Escribe aquí el contenido de la noticia..."
-    rows="5"
-    style="width:100%;padding:12px;border:1px solid #ddd;border-radius:10px;resize:vertical;"
-  ></textarea>
+      <textarea
+        id="noticiaContenido"
+        placeholder="Escribe aquí el contenido de la noticia..."
+        rows="5"
+        style="width:100%;padding:12px;border:1px solid #ddd;border-radius:10px;resize:vertical;"
+      ></textarea>
 
-  <input
-    id="noticiaFecha"
-    type="date"
-    style="width:100%;padding:12px;border:1px solid #ddd;border-radius:10px;margin-top:10px;"
-  >
+      <input
+        id="noticiaFecha"
+        type="date"
+        style="width:100%;padding:12px;border:1px solid #ddd;border-radius:10px;margin-top:10px;"
+      >
 
-  <button onclick="guardarNoticia()">
-    📢 Publicar noticia
-  </button>
+      <button onclick="guardarNoticia()">
+        📢 Publicar noticia
+      </button>
 
-  <div
-    id="mensajeNoticia"
-    style="margin-top:12px;padding:10px;border-radius:10px;background:#e0f2fe;display:none;"
-  ></div>
-<div style="margin-top:20px;">
+      <div
+        id="mensajeNoticia"
+        style="margin-top:12px;padding:10px;border-radius:10px;background:#e0f2fe;display:none;"
+      ></div>
 
-  <h3 style="color:#075985;">📰 Noticias publicadas</h3>
+    </div>
 
-  <div id="listaNoticias">
-    Cargando noticias...
+    <div style="margin-top:20px;">
+
+      <h3 style="color:#075985;">
+        📰 Noticias publicadas
+      </h3>
+
+      <div id="listaNoticias">
+        Cargando noticias...
+      </div>
+
+    </div>
+
   </div>
 
-</div>
-</div>
-    <div style="margin-top:20px;padding:15px;background:#f8fafc;border-radius:12px;">
-  <h3 style="color:#075985;margin-top:0;">📄 Gestionar documentos</h3>
 
-  <input
-    id="documentoNombre"
-    type="text"
-    placeholder="Nombre del documento"
-    style="width:100%;padding:12px;border:1px solid #ddd;border-radius:10px;margin-bottom:10px;"
-  >
+  <!-- DOCUMENTOS -->
+  <div class="card">
 
-  <input
-    id="documentoArchivo"
-    type="file"
-    accept=".pdf,.jpg,.jpeg,.png"
-    style="width:100%;padding:10px;background:white;border-radius:10px;"
-  >
+    <h2>📄 Gestionar documentos</h2>
 
-  <button onclick="alert('PRUEBA OK')">
-    📤 Subir documento
-  </button>
+    <p>
+      Desde aquí puedes subir documentos para que aparezcan
+      posteriormente en la sección de prevención.
+    </p>
 
-  <div
-    id="mensajeDocumento"
-    style="margin-top:12px;padding:10px;border-radius:10px;background:#e0f2fe;display:none;"
-  ></div>
+    <input
+      id="documentoNombre"
+      type="text"
+      placeholder="Nombre del documento"
+      style="width:100%;padding:12px;border:1px solid #ddd;border-radius:10px;margin-bottom:10px;"
+    >
 
-  <h3 style="color:#075985;margin-top:20px;">
-    📚 Documentos disponibles
-  </h3>
+    <input
+      id="documentoArchivo"
+      type="file"
+      accept=".pdf,.jpg,.jpeg,.png"
+      style="width:100%;padding:10px;background:white;border-radius:10px;"
+    >
 
-  <div id="listaDocumentos">
-    Cargando documentos...
+    <button onclick="subirDocumento()">
+      📤 Subir documento
+    </button>
+
+    <div
+      id="mensajeDocumento"
+      style="margin-top:12px;padding:10px;border-radius:10px;background:#e0f2fe;display:none;"
+    ></div>
+
+    <h3 style="color:#075985;margin-top:20px;">
+      📚 Documentos disponibles
+    </h3>
+
+    <div id="listaDocumentos">
+      Cargando documentos...
+    </div>
+
   </div>
-</div>
+
+
+  <!-- FOTOS Y CALENDARIO -->
+  <div class="card">
 
     <button onclick="alert('Próximamente podrás gestionar fotografías.')">
       📷 Gestionar fotos
@@ -188,33 +210,50 @@
     <button onclick="alert('Próximamente podrás actualizar el calendario.')">
       📅 Gestionar calendario
     </button>
+
   </div>
 
+
+  <!-- SESIÓN -->
   <div class="card">
+
     <h2>Sesión</h2>
 
-    <p id="usuario">Comprobando usuario...</p>
+    <p id="usuario">
+      Comprobando usuario...
+    </p>
 
     <button class="logout" onclick="cerrarSesion()">
       🚪 Cerrar sesión
     </button>
 
     <div id="mensaje" class="mensaje"></div>
+
   </div>
 
 </main>
 
+
 <script>
 
-const SUPABASE_URL = "https://gyfzbpvxpklgoxrhvonm.supabase.co";
+const SUPABASE_URL =
+  "https://gyfzbpvxpklgoxrhvonm.supabase.co";
 
-const SUPABASE_KEY = "sb_publishable_Jwx0bD9qPWvaWYiSmlPHZg_U3OlXsbX";
+const SUPABASE_KEY =
+  "sb_publishable_Jwx0bD9qPWvaWYiSmlPHZg_U3OlXsbX";
 
-const supabaseClient = supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
-);
-  async function editarNoticia(id) {
+const supabaseClient =
+  supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+
+/* =========================
+   EDITAR NOTICIA
+========================= */
+
+async function editarNoticia(id) {
 
   const { data, error } = await supabaseClient
     .from("noticias")
@@ -227,30 +266,37 @@ const supabaseClient = supabase.createClient(
     return;
   }
 
-  const nuevoTitulo = prompt("Título de la noticia:", data.titulo);
+  const nuevoTitulo =
+    prompt("Título de la noticia:", data.titulo);
 
   if (nuevoTitulo === null) return;
 
-  const nuevoContenido = prompt("Contenido de la noticia:", data.contenido);
+  const nuevoContenido =
+    prompt("Contenido de la noticia:", data.contenido);
 
   if (nuevoContenido === null) return;
 
-  const nuevaFecha = prompt("Fecha (AAAA-MM-DD):", data.fecha);
+  const nuevaFecha =
+    prompt("Fecha (AAAA-MM-DD):", data.fecha);
 
   if (nuevaFecha === null) return;
 
-  const { error: errorActualizacion } = await supabaseClient
-    .from("noticias")
-    .update({
-      titulo: nuevoTitulo,
-      contenido: nuevoContenido,
-      fecha: nuevaFecha
-    })
-    .eq("id", id);
+  const { error: errorActualizacion } =
+    await supabaseClient
+      .from("noticias")
+      .update({
+        titulo: nuevoTitulo,
+        contenido: nuevoContenido,
+        fecha: nuevaFecha
+      })
+      .eq("id", id);
 
   if (errorActualizacion) {
+
     console.error(errorActualizacion);
+
     alert("❌ No se ha podido actualizar la noticia.");
+
     return;
   }
 
@@ -258,22 +304,31 @@ const supabaseClient = supabase.createClient(
 
   cargarNoticias();
 }
-  async function borrarNoticia(id) {
 
-  const confirmar = confirm(
-    "¿Seguro que quieres borrar esta noticia?"
-  );
+
+/* =========================
+   BORRAR NOTICIA
+========================= */
+
+async function borrarNoticia(id) {
+
+  const confirmar =
+    confirm("¿Seguro que quieres borrar esta noticia?");
 
   if (!confirmar) return;
 
-  const { error } = await supabaseClient
-    .from("noticias")
-    .delete()
-    .eq("id", id);
+  const { error } =
+    await supabaseClient
+      .from("noticias")
+      .delete()
+      .eq("id", id);
 
   if (error) {
+
     console.error(error);
+
     alert("❌ No se ha podido borrar la noticia.");
+
     return;
   }
 
@@ -281,332 +336,542 @@ const supabaseClient = supabase.createClient(
 
   cargarNoticias();
 }
+
+
+/* =========================
+   GUARDAR NOTICIA
+========================= */
+
 async function guardarNoticia() {
 
-  const titulo = document.getElementById("noticiaTitulo").value.trim();
-  const contenido = document.getElementById("noticiaContenido").value.trim();
-  const fecha = document.getElementById("noticiaFecha").value;
-  const mensaje = document.getElementById("mensajeNoticia");
+  const titulo =
+    document.getElementById("noticiaTitulo").value.trim();
+
+  const contenido =
+    document.getElementById("noticiaContenido").value.trim();
+
+  const fecha =
+    document.getElementById("noticiaFecha").value;
+
+  const mensaje =
+    document.getElementById("mensajeNoticia");
+
 
   if (!titulo || !contenido || !fecha) {
+
     mensaje.style.display = "block";
-    mensaje.innerText = "⚠️ Completa el título, el contenido y la fecha.";
+
+    mensaje.innerText =
+      "⚠️ Completa el título, el contenido y la fecha.";
+
     return;
   }
+
 
   mensaje.style.display = "block";
-  mensaje.innerText = "Guardando noticia...";
 
-  const { error } = await supabaseClient
-    .from("noticias")
-    .insert({
-      titulo: titulo,
-      contenido: contenido,
-      fecha: fecha,
-      publicado: true
-    });
+  mensaje.innerText =
+    "Guardando noticia...";
+
+
+  const { error } =
+    await supabaseClient
+      .from("noticias")
+      .insert({
+        titulo: titulo,
+        contenido: contenido,
+        fecha: fecha,
+        publicado: true
+      });
+
 
   if (error) {
+
     console.error(error);
-    mensaje.innerText = "❌ No se ha podido guardar la noticia.";
+
+    mensaje.innerText =
+      "❌ No se ha podido guardar la noticia.";
+
     return;
   }
 
-  mensaje.innerText = "✅ Noticia publicada correctamente.";
+
+  mensaje.innerText =
+    "✅ Noticia publicada correctamente.";
+
 
   document.getElementById("noticiaTitulo").value = "";
+
   document.getElementById("noticiaContenido").value = "";
+
   document.getElementById("noticiaFecha").value = "";
+
 
   cargarNoticias();
 }
 
 
+/* =========================
+   CARGAR NOTICIAS
+========================= */
+
 async function cargarNoticias() {
 
-  const lista = document.getElementById("listaNoticias");
+  const lista =
+    document.getElementById("listaNoticias");
 
-  const { data, error } = await supabaseClient
-    .from("noticias")
-    .select("id, titulo, contenido, fecha, publicado")
-    .order("fecha", { ascending: false });
+
+  const { data, error } =
+    await supabaseClient
+      .from("noticias")
+      .select(
+        "id, titulo, contenido, fecha, publicado"
+      )
+      .order(
+        "fecha",
+        { ascending: false }
+      );
+
 
   if (error) {
+
     console.error(error);
-    lista.innerHTML = "❌ No se han podido cargar las noticias.";
+
+    lista.innerHTML =
+      "❌ No se han podido cargar las noticias.";
+
     return;
   }
 
+
   if (!data || data.length === 0) {
-    lista.innerHTML = "Todavía no hay noticias.";
+
+    lista.innerHTML =
+      "Todavía no hay noticias.";
+
     return;
   }
+
 
   lista.innerHTML = "";
 
+
   data.forEach(function(noticia) {
 
-    const bloque = document.createElement("div");
+    const bloque =
+      document.createElement("div");
 
-    bloque.style.background = "#f3f6f9";
-    bloque.style.padding = "15px";
-    bloque.style.borderRadius = "12px";
-    bloque.style.marginBottom = "12px";
+
+    bloque.style.background =
+      "#f3f6f9";
+
+    bloque.style.padding =
+      "15px";
+
+    bloque.style.borderRadius =
+      "12px";
+
+    bloque.style.marginBottom =
+      "12px";
+
 
     bloque.innerHTML = `
+
       <strong>${noticia.titulo}</strong>
-      <div style="font-size:13px;color:#666;margin-top:5px;">
+
+      <div
+        style="font-size:13px;color:#666;margin-top:5px;"
+      >
         ${noticia.fecha}
       </div>
+
       <p>${noticia.contenido}</p>
+
       <div style="font-size:13px;">
-        ${noticia.publicado ? "🟢 Publicada" : "⚪ Oculta"}
+        ${noticia.publicado
+          ? "🟢 Publicada"
+          : "⚪ Oculta"}
       </div>
-            <div style="margin-top:10px;">
-        <button onclick="editarNoticia('${noticia.id}')">
+
+      <div style="margin-top:10px;">
+
+        <button
+          onclick="editarNoticia('${noticia.id}')"
+        >
           ✏️ Editar
         </button>
+
       </div>
+
       <div style="margin-top:10px;">
-  <button
-    style="background:#dc2626;"
-    onclick="borrarNoticia('${noticia.id}')">
-    🗑️ Borrar
-  </button>
-</div>
+
+        <button
+          style="background:#dc2626;"
+          onclick="borrarNoticia('${noticia.id}')"
+        >
+          🗑️ Borrar
+        </button>
+
+      </div>
     `;
 
+
     lista.appendChild(bloque);
+
   });
+
 }
-async function comprobarSesion() {
 
-  const { data, error } = await supabaseClient.auth.getSession();
 
-  if (error || !data.session) {
-    window.location.href = "index.html";
+/* =========================
+   CARGAR DOCUMENTOS
+========================= */
+
+async function cargarDocumentos() {
+
+  const lista =
+    document.getElementById("listaDocumentos");
+
+
+  const { data, error } =
+    await supabaseClient
+      .from("documentos")
+      .select("*")
+      .order(
+        "created_at",
+        { ascending: false }
+      );
+
+
+  if (error) {
+
+    console.error(error);
+
+    lista.innerHTML =
+      "❌ No se han podido cargar los documentos.";
+
     return;
   }
+
+
+  if (!data || data.length === 0) {
+
+    lista.innerHTML =
+      "Todavía no hay documentos.";
+
+    return;
+  }
+
+
+  lista.innerHTML = "";
+
+
+  data.forEach(function(doc) {
+
+    const bloque =
+      document.createElement("div");
+
+
+    bloque.style.background =
+      "#f3f6f9";
+
+    bloque.style.padding =
+      "15px";
+
+    bloque.style.borderRadius =
+      "12px";
+
+    bloque.style.marginBottom =
+      "12px";
+
+
+    bloque.innerHTML = `
+
+      <strong>
+        📄 ${doc.nombre}
+      </strong>
+
+      <div style="margin-top:10px;">
+
+        <a
+          href="${doc.url}"
+          target="_blank"
+        >
+          📖 Ver documento
+        </a>
+
+      </div>
+
+      <div style="margin-top:10px;">
+
+        <button
+          style="background:#dc2626;"
+          onclick="borrarDocumento('${doc.id}', '${doc.ruta}')"
+        >
+          🗑️ Borrar documento
+        </button>
+
+      </div>
+
+    `;
+
+
+    lista.appendChild(bloque);
+
+  });
+
+}
+
+
+/* =========================
+   SUBIR DOCUMENTO
+========================= */
+
+async function subirDocumento() {
+
+  const nombre =
+    document
+      .getElementById("documentoNombre")
+      .value
+      .trim();
+
+
+  const archivo =
+    document
+      .getElementById("documentoArchivo")
+      .files[0];
+
+
+  const mensaje =
+    document.getElementById(
+      "mensajeDocumento"
+    );
+
+
+  if (!nombre || !archivo) {
+
+    mensaje.style.display =
+      "block";
+
+    mensaje.innerText =
+      "⚠️ Pon un nombre y selecciona un archivo.";
+
+    return;
+  }
+
+
+  mensaje.style.display =
+    "block";
+
+  mensaje.innerText =
+    "📤 Subiendo documento...";
+
+
+  const nombreSeguro =
+    archivo.name.replace(
+      /[^a-zA-Z0-9._-]/g,
+      "_"
+    );
+
+
+  const ruta =
+    Date.now() +
+    "_" +
+    nombreSeguro;
+
+
+  const { error: errorSubida } =
+    await supabaseClient.storage
+      .from("documentos")
+      .upload(
+        ruta,
+        archivo,
+        {
+          upsert: false
+        }
+      );
+
+
+  if (errorSubida) {
+
+    console.error(errorSubida);
+
+    mensaje.innerText =
+      "❌ No se ha podido subir el archivo.";
+
+    return;
+  }
+
+
+  const url =
+    `${SUPABASE_URL}/storage/v1/object/public/documentos/${ruta}`;
+
+
+  const { error: errorBD } =
+    await supabaseClient
+      .from("documentos")
+      .insert({
+
+        nombre: nombre,
+
+        ruta: ruta,
+
+        url: url,
+
+        categoria: "prevencion",
+
+        publicado: true
+
+      });
+
+
+  if (errorBD) {
+
+    await supabaseClient.storage
+      .from("documentos")
+      .remove([ruta]);
+
+
+    console.error(errorBD);
+
+    mensaje.innerText =
+      "❌ No se ha podido guardar el documento.";
+
+    return;
+  }
+
+
+  mensaje.innerText =
+    "✅ Documento subido correctamente.";
+
+
+  document
+    .getElementById("documentoNombre")
+    .value = "";
+
+
+  document
+    .getElementById("documentoArchivo")
+    .value = "";
+
+
+  cargarDocumentos();
+}
+
+
+/* =========================
+   BORRAR DOCUMENTO
+========================= */
+
+async function borrarDocumento(
+  id,
+  ruta
+) {
+
+  const confirmar =
+    confirm(
+      "¿Seguro que quieres borrar este documento?"
+    );
+
+
+  if (!confirmar) return;
+
+
+  const { error: errorArchivo } =
+    await supabaseClient.storage
+      .from("documentos")
+      .remove([ruta]);
+
+
+  if (errorArchivo) {
+
+    console.error(errorArchivo);
+
+    alert(
+      "❌ No se ha podido borrar el archivo."
+    );
+
+    return;
+  }
+
+
+  const { error } =
+    await supabaseClient
+      .from("documentos")
+      .delete()
+      .eq("id", id);
+
+
+  if (error) {
+
+    console.error(error);
+
+    alert(
+      "❌ No se ha podido borrar el registro."
+    );
+
+    return;
+  }
+
+
+  alert(
+    "✅ Documento borrado correctamente."
+  );
+
+
+  cargarDocumentos();
+}
+
+
+/* =========================
+   COMPROBAR SESIÓN
+========================= */
+
+async function comprobarSesion() {
+
+  const { data, error } =
+    await supabaseClient.auth.getSession();
+
+
+  if (error || !data.session) {
+
+    window.location.href =
+      "index.html";
+
+    return;
+  }
+
 
   document.getElementById("usuario").innerHTML =
     "✅ Sesión iniciada correctamente.";
 }
-async function cargarDocumentos() {
-async function subirDocumento() {
-
-  const nombre = document.getElementById("documentoNombre").value.trim();
-  const archivo = document.getElementById("documentoArchivo").files[0];
-  const mensaje = document.getElementById("mensajeDocumento");
-
-  if (!nombre || !archivo) {
-    mensaje.style.display = "block";
-    mensaje.innerText = "⚠️ Pon un nombre y selecciona un archivo.";
-    return;
-  }
-
-  mensaje.style.display = "block";
-  mensaje.innerText = "📤 Subiendo documento...";
-
-  const nombreSeguro = archivo.name.replace(/[^a-zA-Z0-9._-]/g, "_");
-  const ruta = Date.now() + "_" + nombreSeguro;
-
-  const { error: errorSubida } = await supabaseClient.storage
-    .from("documentos")
-    .upload(ruta, archivo, {
-      upsert: false
-    });
-
-  if (errorSubida) {
-    console.error(errorSubida);
-    mensaje.innerText = "❌ No se ha podido subir el archivo.";
-    return;
-  }
-
-  const url =
-    `${SUPABASE_URL}/storage/v1/object/public/documentos/${ruta}`;
-
-  const { error: errorBD } = await supabaseClient
-    .from("documentos")
-    .insert({
-      nombre: nombre,
-      ruta: ruta,
-      url: url,
-      categoria: "prevencion",
-      publicado: true
-    });
-
-  if (errorBD) {
-
-    await supabaseClient.storage
-      .from("documentos")
-      .remove([ruta]);
-
-    console.error(errorBD);
-    mensaje.innerText = "❌ No se ha podido guardar el documento.";
-    return;
-  }
-
-  mensaje.innerText = "✅ Documento subido correctamente.";
-
-  document.getElementById("documentoNombre").value = "";
-  document.getElementById("documentoArchivo").value = "";
-
-  cargarDocumentos();
-}
-  const lista = document.getElementById("listaDocumentos");
-
-  const { data, error } = await supabaseClient
-    .from("documentos")
-    .select("*")
-    .order("created_at", { ascending: false });
-
-  if (error) {
-    console.error(error);
-    lista.innerHTML = "❌ No se han podido cargar los documentos.";
-    return;
-  }
-
-  if (!data || data.length === 0) {
-    lista.innerHTML = "Todavía no hay documentos.";
-    return;
-  }
-
-  lista.innerHTML = "";
-
-  data.forEach(function(doc) {
-
-    const bloque = document.createElement("div");
-
-    bloque.style.background = "#f3f6f9";
-    bloque.style.padding = "15px";
-    bloque.style.borderRadius = "12px";
-    bloque.style.marginBottom = "12px";
-async function cargarDocumentos() {
-
-  const lista = document.getElementById("listaDocumentos");
-
-  const { data, error } = await supabaseClient
-    .from("documentos")
-    .select("*")
-    .order("created_at", { ascending: false });
-
-  if (error) {
-    console.error(error);
-    lista.innerHTML = "❌ No se han podido cargar los documentos.";
-    return;
-  }
-
-  if (!data || data.length === 0) {
-    lista.innerHTML = "Todavía no hay documentos.";
-    return;
-  }
-
-  lista.innerHTML = "";
-
-  data.forEach(function(doc) {
-
-    const bloque = document.createElement("div");
-
-    bloque.style.background = "#f3f6f9";
-    bloque.style.padding = "15px";
-    bloque.style.borderRadius = "12px";
-    bloque.style.marginBottom = "12px";
-
-    bloque.innerHTML = `
-      <strong>📄 ${doc.nombre}</strong>
-
-      <div style="margin-top:10px;">
-        <a href="${doc.url}" target="_blank">
-          Ver documento
-        </a>
-      </div>
-
-      <div style="margin-top:10px;">
-        <button
-          style="background:#dc2626;"
-          onclick="borrarDocumento('${doc.id}')">
-          🗑️ Borrar
-        </button>
-      </div>
-    `;
-
-    lista.appendChild(bloque);
-  });
-}
 
 
-async function subirDocumento() {
+/* =========================
+   CERRAR SESIÓN
+========================= */
 
-  const nombre = document.getElementById("documentoNombre").value.trim();
-  const archivo = document.getElementById("documentoArchivo").files[0];
-  const mensaje = document.getElementById("mensajeDocumento");
-
-  if (!nombre || !archivo) {
-    mensaje.style.display = "block";
-    mensaje.innerText = "⚠️ Pon un nombre y selecciona un archivo.";
-    return;
-  }
-
-  mensaje.style.display = "block";
-  mensaje.innerText = "📤 Subiendo documento...";
-
-  const nombreSeguro = archivo.name.replace(/[^a-zA-Z0-9._-]/g, "_");
-  const ruta = Date.now() + "_" + nombreSeguro;
-
-  const { error: errorSubida } = await supabaseClient.storage
-    .from("documentos")
-    .upload(ruta, archivo, {
-      upsert: false
-    });
-
-  if (errorSubida) {
-    console.error(errorSubida);
-    mensaje.innerText = "❌ No se ha podido subir el archivo.";
-    return;
-  }
-
-  const url =
-    `${SUPABASE_URL}/storage/v1/object/public/documentos/${ruta}`;
-
-  const { error: errorBD } = await supabaseClient
-    .from("documentos")
-    .insert({
-      nombre: nombre,
-      ruta: ruta,
-      url: url,
-      categoria: "prevencion",
-      publicado: true
-    });
-
-  if (errorBD) {
-
-    await supabaseClient.storage
-      .from("documentos")
-      .remove([ruta]);
-
-    console.error(errorBD);
-    mensaje.innerText = "❌ No se ha podido guardar el documento.";
-    return;
-  }
-
-  mensaje.innerText = "✅ Documento subido correctamente.";
-
-  document.getElementById("documentoNombre").value = "";
-  document.getElementById("documentoArchivo").value = "";
-
-  cargarDocumentos();
-}
 async function cerrarSesion() {
 
   await supabaseClient.auth.signOut();
 
-  window.location.href = "index.html";
+  window.location.href =
+    "index.html";
 }
 
-comprobarSesion().then(() => {
+
+/* =========================
+   INICIO
+========================= */
+
+comprobarSesion().then(function() {
+
   cargarNoticias();
+
   cargarDocumentos();
+
 });
+
 </script>
 
 </body>
