@@ -71,7 +71,18 @@
       line-height: 1.5;
     }
 
-    .boton {
+    .documento {
+      border-top: 1px solid #e1e5e9;
+      padding-top: 15px;
+      margin-top: 15px;
+    }
+
+    .documento strong {
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .boton-documento {
       display: block;
       text-align: center;
       background: #075985;
@@ -79,13 +90,19 @@
       text-decoration: none;
       padding: 12px;
       border-radius: 12px;
-      margin-top: 12px;
       font-weight: bold;
     }
 
     .icono {
       font-size: 32px;
       margin-bottom: 8px;
+    }
+
+    .sin-documentos {
+      color: #6b7785;
+      font-size: 14px;
+      text-align: center;
+      padding: 15px 0;
     }
   </style>
 </head>
@@ -104,30 +121,102 @@
   </a>
 
   <div class="card">
-    <div class="icono">🚨</div>
-    <h2>Protocolo ante olas de calor</h2>
+    <div class="icono">📚</div>
+
+    <h2>Documentos disponibles</h2>
 
     <p>
-      Aquí estará disponible el protocolo de la empresa cuando sea entregado
-      al Comité de Empresa.
+      Aquí puedes consultar los documentos de prevención,
+      seguridad y salud laboral publicados por el Comité.
     </p>
 
-    <a class="boton" href="#">
-      📄 Ver protocolo de la empresa
-    </a>
-  </div>
+    <div id="listaDocumentos">
+      <p class="sin-documentos">
+        Cargando documentos...
+      </p>
+    </div>
 
-  <div class="card">
-    <div class="icono">📋</div>
-    <h2>Otros documentos</h2>
-
-    <p>
-      En este apartado iremos incorporando documentos de prevención,
-      seguridad y salud laboral de interés para los trabajadores.
-    </p>
   </div>
 
 </main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+const SUPABASE_URL =
+  "https://gyfzbpvxpklgoxrhvonm.supabase.co";
+
+const SUPABASE_KEY =
+  "sb_publishable_Jwx0bD9qPWvaWYiSmlPHZg_U3OlXsbX";
+
+const supabaseClient =
+  supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+
+async function cargarDocumentos() {
+
+  const lista =
+    document.getElementById("listaDocumentos");
+
+  const { data, error } =
+    await supabaseClient
+      .from("documentos")
+      .select("nombre, url, categoria, created_at")
+      .eq("publicado", true)
+      .eq("categoria", "prevencion")
+      .order("created_at", { ascending: false });
+
+  if (error) {
+
+    console.error(error);
+
+    lista.innerHTML =
+      "<p class='sin-documentos'>❌ No se han podido cargar los documentos.</p>";
+
+    return;
+  }
+
+  if (!data || data.length === 0) {
+
+    lista.innerHTML =
+      "<p class='sin-documentos'>Todavía no hay documentos publicados.</p>";
+
+    return;
+  }
+
+  lista.innerHTML = "";
+
+  data.forEach(function(doc) {
+
+    const bloque =
+      document.createElement("div");
+
+    bloque.className =
+      "documento";
+
+    bloque.innerHTML = `
+      <strong>📄 ${doc.nombre}</strong>
+
+      <a class="boton-documento"
+         href="ver-documento.html?url=${encodeURIComponent(doc.url)}">
+        📖 Ver documento
+      </a>
+    `;
+
+    lista.appendChild(bloque);
+
+  });
+
+}
+
+
+cargarDocumentos();
+
+</script>
 
 </body>
 </html>
