@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Ver documento - Maflow</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f3f6f9;
+      color: #222;
+    }
+
+    header {
+      background: linear-gradient(135deg, #075985, #0284c7);
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 21px;
+    }
+
+    header p {
+      margin: 6px 0 0;
+      opacity: .9;
+      font-size: 14px;
+    }
+
+    main {
+      max-width: 900px;
+      margin: auto;
+      padding: 15px;
+    }
+
+    .volver {
+      display: block;
+      text-decoration: none;
+      text-align: center;
+      background: #075985;
+      color: white;
+      padding: 13px;
+      border-radius: 12px;
+      margin-bottom: 15px;
+      font-weight: bold;
+    }
+
+    .visor {
+      background: white;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 3px 12px rgba(0,0,0,.08);
+    }
+
+    iframe {
+      width: 100%;
+      height: 80vh;
+      min-height: 600px;
+      border: 0;
+      display: block;
+    }
+
+    .aviso {
+      text-align: center;
+      font-size: 12px;
+      color: #6b7785;
+      padding: 12px;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>📄 Documento de prevención</h1>
+  <p>Comité de Empresa Maflow</p>
+</header>
+
+<main>
+
+  <a class="volver" href="documentos-prevencion.html">
+    ← Volver a documentos
+  </a>
+
+  <div class="visor">
+
+    <iframe
+      id="visorPDF"
+      title="Documento PDF">
+    </iframe>
+
+    <div class="aviso">
+      Puedes ampliar el documento y desplazarte por las páginas.
+    </div>
+
+  </div>
+
+</main>
+
+<script>
+
+const parametros = new URLSearchParams(window.location.search);
+
+const url = parametros.get("url");
+
+const visor = document.getElementById("visorPDF");
+
+if (url) {
+  visor.src = url;
+} else {
+  visor.style.display = "none";
+
+  document.querySelector(".visor").innerHTML =
+    "<p style='padding:30px;text-align:center;'>❌ No se ha encontrado el documento.</p>";
+}
+
+</script>
+
+</body>
+</html>
