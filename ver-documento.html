@@ -116,7 +116,10 @@ const url = parametros.get("url");
 const visor = document.getElementById("visorPDF");
 
 if (url) {
-  visor.src = url;
+  visor.src =
+    "https://docs.google.com/gview?embedded=1&url="
+    + encodeURIComponent(url);
+}
 } else {
   visor.style.display = "none";
 
