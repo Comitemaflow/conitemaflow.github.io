@@ -157,6 +157,26 @@ if (!respuesta.ok) {
 
 const datos = await respuesta.arrayBuffer();
 
+const partesUrl = new URL(url);
+const partes = partesUrl.pathname.split("/documentos/");
+
+if (partes.length < 2) {
+  throw new Error("Ruta del documento no válida");
+}
+
+const ruta = partes[1];
+
+const respuesta = await fetch(
+  "https://gyfzbpvxpklgoxrhvonm.supabase.co/functions/v1/ver-documento?ruta=" +
+  encodeURIComponent(ruta)
+);
+
+if (!respuesta.ok) {
+  throw new Error("No se ha podido obtener el documento");
+}
+
+const datos = await respuesta.arrayBuffer();
+
 const pdf =
   await pdfjsLib.getDocument({
     data: datos
