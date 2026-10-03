@@ -97,13 +97,6 @@
       font-size: 32px;
       margin-bottom: 8px;
     }
-
-    .sin-documentos {
-      color: #6b7785;
-      font-size: 14px;
-      text-align: center;
-      padding: 15px 0;
-    }
   </style>
 </head>
 
@@ -121,6 +114,7 @@
   </a>
 
   <div class="card">
+
     <div class="icono">📚</div>
 
     <h2>Documentos disponibles</h2>
@@ -130,93 +124,21 @@
       seguridad y salud laboral publicados por el Comité.
     </p>
 
-    <div id="listaDocumentos">
-      <p class="sin-documentos">
-        Cargando documentos...
-      </p>
+    <div class="documento">
+
+      <strong>📄 Protocolo ante olas de calor</strong>
+
+      <a
+        class="boton-documento"
+        href="protocolo-calor.html">
+        📖 Ver documento
+      </a>
+
     </div>
 
   </div>
 
 </main>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<script>
-
-const SUPABASE_URL =
-  "https://gyfzbpvxpklgoxrhvonm.supabase.co";
-
-const SUPABASE_KEY =
-  "sb_publishable_Jwx0bD9qPWvaWYiSmlPHZg_U3OlXsbX";
-
-const supabaseClient =
-  supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-  );
-
-
-async function cargarDocumentos() {
-
-  const lista =
-    document.getElementById("listaDocumentos");
-
-  const { data, error } =
-    await supabaseClient
-      .from("documentos")
-      .select("nombre, url, categoria, created_at")
-      .eq("publicado", true)
-      .eq("categoria", "prevencion")
-      .order("created_at", { ascending: false });
-
-  if (error) {
-
-    console.error(error);
-
-    lista.innerHTML =
-      "<p class='sin-documentos'>❌ No se han podido cargar los documentos.</p>";
-
-    return;
-  }
-
-  if (!data || data.length === 0) {
-
-    lista.innerHTML =
-      "<p class='sin-documentos'>Todavía no hay documentos publicados.</p>";
-
-    return;
-  }
-
-  lista.innerHTML = "";
-
-  data.forEach(function(doc) {
-
-    const bloque =
-      document.createElement("div");
-
-    bloque.className =
-      "documento";
-
-    bloque.innerHTML = `
-      <strong>📄 ${doc.nombre}</strong>
-
-      <a class="boton-documento"
-   href="protocolo-calor.html">
-  📖 Ver documento
-</a>
-    `;
-
-    lista.appendChild(bloque);
-
-  });
-
-}
-
-
-cargarDocumentos();
-
-</script>
 
 </body>
 </html>
