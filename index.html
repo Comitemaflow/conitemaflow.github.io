@@ -15,13 +15,18 @@
   --accent2:#20639b;
   --line:#e6e9ed;
 }
-*{box-sizing:border-box}
+
+*{
+  box-sizing:border-box
+}
+
 body{
   margin:0;
   background:var(--bg);
   font-family:Arial,Helvetica,sans-serif;
   color:var(--text)
 }
+
 .phone{
   max-width:430px;
   margin:0 auto;
@@ -29,12 +34,14 @@ body{
   background:var(--bg);
   box-shadow:0 0 35px rgba(0,0,0,.08)
 }
+
 .header{
   background:linear-gradient(145deg,var(--accent),var(--accent2));
   color:#fff;
   padding:28px 22px 25px;
   border-radius:0 0 28px 28px
 }
+
 .badge{
   display:inline-block;
   font-size:12px;
@@ -45,29 +52,35 @@ body{
   border-radius:20px;
   margin-bottom:14px
 }
+
 h1{
   font-size:27px;
   line-height:1.08;
   margin:0 0 8px
 }
+
 .subtitle{
   font-size:14px;
   opacity:.9;
   margin:0
 }
+
 .content{
   padding:20px 16px 100px
 }
+
 .section-title{
   font-size:15px;
   font-weight:700;
   margin:4px 4px 12px
 }
+
 .grid{
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:13px
 }
+
 .card{
   background:var(--card);
   border:1px solid var(--line);
@@ -77,6 +90,7 @@ h1{
   box-shadow:0 5px 16px rgba(22,34,46,.05);
   cursor:pointer
 }
+
 .icon{
   width:48px;
   height:48px;
@@ -88,17 +102,20 @@ h1{
   background:#eef3f7;
   margin-bottom:14px
 }
+
 .card h2{
   font-size:15px;
   line-height:1.2;
   margin:0 0 7px
 }
+
 .card p{
   font-size:12px;
   line-height:1.35;
   color:var(--muted);
   margin:0
 }
+
 .wide{
   grid-column:1/-1;
   min-height:112px;
@@ -106,7 +123,11 @@ h1{
   gap:15px;
   align-items:center
 }
-.wide .icon{margin:0;flex:none}
+
+.wide .icon{
+  margin:0;
+  flex:none
+}
 
 .notice{
   margin-top:20px;
@@ -115,14 +136,23 @@ h1{
   border-radius:20px;
   padding:16px
 }
+
 .notice-head{
   display:flex;
   justify-content:space-between;
   align-items:center;
   margin-bottom:8px
 }
-.notice strong{font-size:14px}
-.date{font-size:11px;color:var(--muted)}
+
+.notice strong{
+  font-size:14px
+}
+
+.date{
+  font-size:11px;
+  color:var(--muted)
+}
+
 .notice p{
   font-size:12px;
   line-height:1.45;
@@ -137,10 +167,12 @@ h1{
   border-radius:20px;
   padding:18px
 }
+
 .private h2{
   font-size:16px;
   margin:0 0 12px
 }
+
 input{
   width:100%;
   padding:13px;
@@ -149,6 +181,7 @@ input{
   border-radius:12px;
   font-size:14px
 }
+
 button{
   width:100%;
   padding:13px;
@@ -160,6 +193,7 @@ button{
   font-weight:700;
   font-size:14px
 }
+
 #mensaje{
   font-size:12px;
   margin-top:10px;
@@ -179,23 +213,30 @@ button{
   justify-content:space-around;
   align-items:center
 }
+
 .nav{
   font-size:10px;
   color:var(--muted);
   text-align:center;
   cursor:pointer
 }
+
 .nav span{
   display:block;
   font-size:21px;
   margin-bottom:2px
 }
+
 .nav.active{
   color:var(--accent);
   font-weight:700
 }
+
 @media(min-width:700px){
-  body{padding:30px 0}
+  body{
+    padding:30px 0
+  }
+
   .phone{
     border-radius:28px;
     overflow:hidden
@@ -220,170 +261,287 @@ button{
 
 <div class="grid">
 
-<div class="card">
-  <div class="icon">📢</div>
-  <h2>Noticias y comunicados</h2>
-  <p>Información y avisos del Comité de Empresa.</p>
-</div>
-<a href="comite-empresa.html"
-   class="card"
-   style="text-decoration:none;color:inherit;display:block;cursor:pointer;">
-
-  <div class="icon">👥</div>
-  <h2>Comité de Empresa</h2>
-  <p>Composición y representantes del Comité de Empresa.</p>
-
-</a>
-<a href="https://comitemaflow.github.io/conitemaflow.github.io/prevencion.html"
-   class="card"
-   style="text-decoration:none;color:inherit;display:block;cursor:pointer;">
-<a href="comite-empresa.html"
-   class="card"
-   style="text-decoration:none;color:inherit;display:block;cursor:pointer;">
-
-  <div class="icon">👥</div>
-
-  <h2>Comité de Empresa</h2>
-
-  <p>
-    Composición y representantes del Comité de Empresa.
-  </p>
-
-</a>
-  <div class="icon">🦺</div>
-
-  <h2>Prevención y seguridad</h2>
-
-  <p>
-    Prevención de riesgos, seguridad y salud laboral.
-  </p>
-
-</a>
-<a href="convenio.html" class="card" style="text-decoration:none;color:inherit;display:block;">
-  <div class="icon">📄</div>
-  <h2>Convenio y licencias</h2>
-  <p>Convenio colectivo, permisos y licencias.</p>
-</a>
-<a href="calendario.html" class="card" style="text-decoration:none;color:inherit;display:block;">
-  <div class="icon">📅</div>
-  <h2>Calendario de la empresa</h2>
-  <p>Calendario laboral y días señalados.</p>
-</a>
-
-
-<a href="consultas.html" class="card wide" style="text-decoration:none;color:inherit;">
-  <div class="icon">📮</div>
-  <div>
-    <h2>Consultas / contacto</h2>
-    <p>Envía una consulta al Comité de Empresa de forma sencilla.</p>
+  <!-- NOTICIAS -->
+  <div class="card">
+    <div class="icon">📢</div>
+    <h2>Noticias y comunicados</h2>
+    <p>Información y avisos del Comité de Empresa.</p>
   </div>
-</a>
+
+  <!-- COMITÉ DE EMPRESA -->
+  <a href="comite-empresa.html"
+     class="card"
+     style="text-decoration:none;color:inherit;display:block;cursor:pointer;">
+    <div class="icon">👥</div>
+    <h2>Comité de Empresa</h2>
+    <p>Composición y representantes del Comité de Empresa.</p>
+  </a>
+
+  <!-- PREVENCIÓN -->
+  <a href="https://comitemaflow.github.io/conitemaflow.github.io/prevencion.html"
+     class="card"
+     style="text-decoration:none;color:inherit;display:block;cursor:pointer;">
+    <div class="icon">🦺</div>
+    <h2>Prevención y seguridad</h2>
+    <p>Prevención de riesgos, seguridad y salud laboral.</p>
+  </a>
+
+  <!-- CONVENIO -->
+  <a href="convenio.html"
+     class="card"
+     style="text-decoration:none;color:inherit;display:block;">
+    <div class="icon">📄</div>
+    <h2>Convenio y licencias</h2>
+    <p>Convenio colectivo, permisos y licencias.</p>
+  </a>
+
+  <!-- CALENDARIO -->
+  <a href="calendario.html"
+     class="card"
+     style="text-decoration:none;color:inherit;display:block;">
+    <div class="icon">📅</div>
+    <h2>Calendario de la empresa</h2>
+    <p>Calendario laboral y días señalados.</p>
+  </a>
+
+  <!-- CONTACTO -->
+  <a href="consultas.html"
+     class="card wide"
+     style="text-decoration:none;color:inherit;">
+    <div class="icon">📮</div>
+
+    <div>
+      <h2>Consultas / contacto</h2>
+      <p>Envía una consulta al Comité de Empresa de forma sencilla.</p>
+    </div>
+  </a>
 
 </div>
+
+<!-- ÚLTIMO COMUNICADO -->
 
 <div class="notice" id="ultimo-comunicado">
+
   <div class="notice-head">
-    <strong id="noticia-titulo">📌 Último comunicado</strong>
-    <span class="date" id="noticia-fecha">Cargando...</span>
+
+    <strong id="noticia-titulo">
+      📌 Último comunicado
+    </strong>
+
+    <span class="date" id="noticia-fecha">
+      Cargando...
+    </span>
+
   </div>
-  <p id="noticia-contenido">Cargando el último comunicado...</p>
+
+  <p id="noticia-contenido">
+    Cargando el último comunicado...
+  </p>
+
 </div>
 
+
+<!-- ZONA PRIVADA -->
+
 <div class="private">
+
   <h2>🔐 Zona privada</h2>
-  <input type="email" id="email" placeholder="Correo electrónico">
-  <input type="password" id="password" placeholder="Contraseña">
-  <button onclick="entrar()">Entrar</button>
+
+  <input
+    type="email"
+    id="email"
+    placeholder="Correo electrónico"
+  >
+
+  <input
+    type="password"
+    id="password"
+    placeholder="Contraseña"
+  >
+
+  <button onclick="entrar()">
+    Entrar
+  </button>
+
   <div id="mensaje"></div>
+
 </div>
 
 </main>
 
+
+<!-- MENÚ INFERIOR -->
+
 <nav class="bottom">
-  <div class="nav active"><span>⌂</span>Inicio</div>
-  <div class="nav"><span>📢</span>Noticias</div>
-  <a href="calendario.html" class="nav" style="text-decoration:none;">
-  <span>📅</span>Calendario
-</a>
-  <div class="nav"><span>📮</span>Contacto</div>
+
+  <div class="nav active">
+    <span>⌂</span>
+    Inicio
+  </div>
+
+  <div class="nav">
+    <span>📢</span>
+    Noticias
+  </div>
+
+  <a
+    href="calendario.html"
+    class="nav"
+    style="text-decoration:none;"
+  >
+    <span>📅</span>
+    Calendario
+  </a>
+
+  <div class="nav">
+    <span>📮</span>
+    Contacto
+  </div>
+
 </nav>
 
 </div>
+
+
+<!-- SUPABASE -->
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
 
-const SUPABASE_URL = "https://gyfzbpvxpklgoxrhvonm.supabase.co";
+const SUPABASE_URL =
+  "https://gyfzbpvxpklgoxrhvonm.supabase.co";
 
-const SUPABASE_KEY = "sb_publishable_Jwx0bD9qPWvaWYiSmlPHZg_U3OlXsbX";
+const SUPABASE_KEY =
+  "sb_publishable_Jwx0bD9qPWvaWYiSmlPHZg_U3OlXsbX";
 
-const supabaseClient = supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
-);
+const supabaseClient =
+  supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+
+// CARGAR ÚLTIMA NOTICIA
+
 async function cargarUltimaNoticia(){
 
-  const titulo = document.getElementById("noticia-titulo");
-  const fecha = document.getElementById("noticia-fecha");
-  const contenido = document.getElementById("noticia-contenido");
+  const titulo =
+    document.getElementById("noticia-titulo");
 
-  const { data, error } = await supabaseClient
-    .from("noticias")
-    .select("titulo, contenido, fecha, created_at")
-    .eq("publicado", true)
-    .order("fecha", { ascending:false })
-    .order("created_at", { ascending:false })
-    .limit(1)
-    .maybeSingle();
+  const fecha =
+    document.getElementById("noticia-fecha");
+
+  const contenido =
+    document.getElementById("noticia-contenido");
+
+  const { data, error } =
+    await supabaseClient
+      .from("noticias")
+      .select(
+        "titulo, contenido, fecha, created_at"
+      )
+      .eq("publicado", true)
+      .order(
+        "fecha",
+        { ascending:false }
+      )
+      .order(
+        "created_at",
+        { ascending:false }
+      )
+      .limit(1)
+      .maybeSingle();
 
   if(error){
-    titulo.innerText = "📌 Último comunicado";
+
+    titulo.innerText =
+      "📌 Último comunicado";
+
     fecha.innerText = "";
-    contenido.innerText = "No se ha podido cargar el comunicado.";
+
+    contenido.innerText =
+      "No se ha podido cargar el comunicado.";
+
     return;
   }
 
   if(!data){
-    titulo.innerText = "📌 Último comunicado";
+
+    titulo.innerText =
+      "📌 Último comunicado";
+
     fecha.innerText = "";
-    contenido.innerText = "Todavía no hay noticias publicadas.";
+
+    contenido.innerText =
+      "Todavía no hay noticias publicadas.";
+
     return;
   }
 
-  titulo.innerText = "📌 " + data.titulo;
+  titulo.innerText =
+    "📌 " + data.titulo;
 
-  const partes = data.fecha.split("-");
-  fecha.innerText = partes.length === 3
-    ? partes[2] + "/" + partes[1] + "/" + partes[0]
-    : data.fecha;
+  const partes =
+    data.fecha.split("-");
 
-  contenido.innerText = data.contenido;
+  fecha.innerText =
+    partes.length === 3
+      ? partes[2] + "/" + partes[1] + "/" + partes[0]
+      : data.fecha;
+
+  contenido.innerText =
+    data.contenido;
 }
 
-document.addEventListener("DOMContentLoaded", cargarUltimaNoticia);
+
+document.addEventListener(
+  "DOMContentLoaded",
+  cargarUltimaNoticia
+);
+
+
+// ACCESO ZONA PRIVADA
+
 async function entrar(){
 
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
-  const mensaje = document.getElementById("mensaje");
+  const email =
+    document.getElementById("email").value;
 
-  mensaje.innerText = "Comprobando acceso...";
+  const password =
+    document.getElementById("password").value;
 
-  const { data, error } = await supabaseClient.auth.signInWithPassword({
-    email: email,
-    password: password
-  });
+  const mensaje =
+    document.getElementById("mensaje");
+
+  mensaje.innerText =
+    "Comprobando acceso...";
+
+  const { data, error } =
+    await supabaseClient.auth.signInWithPassword({
+
+      email: email,
+
+      password: password
+
+    });
 
   if(error){
-    mensaje.innerText = "❌ Correo o contraseña incorrectos.";
+
+    mensaje.innerText =
+      "❌ Correo o contraseña incorrectos.";
+
     return;
   }
 
-  mensaje.innerText = "✅ Acceso correcto.";
+  mensaje.innerText =
+    "✅ Acceso correcto.";
 
   setTimeout(function(){
-    window.location.href = "admin.html";
+
+    window.location.href =
+      "admin.html";
+
   },1000);
 }
 
