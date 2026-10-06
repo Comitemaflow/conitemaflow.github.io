@@ -203,9 +203,34 @@
   <!-- FOTOS Y CALENDARIO -->
   <div class="card">
 
-    <button onclick="alert('Próximamente podrás gestionar fotografías.')">
-      📷 Gestionar fotos
-    </button>
+    <div style="margin-top:20px;padding:15px;background:#f8fafc;border-radius:12px;">
+
+  <h3 style="color:#075985;margin-top:0;">
+    👥 Comité de Empresa
+  </h3>
+
+  <p>
+    Desde aquí puedes cambiar la imagen del Comité de Empresa
+    cuando cambien sus miembros.
+  </p>
+
+  <input
+    id="comiteEmpresaArchivo"
+    type="file"
+    accept=".png,.jpg,.jpeg"
+    style="width:100%;padding:10px;background:white;border-radius:10px;"
+  >
+
+  <button onclick="subirComiteEmpresa()">
+    📤 Actualizar Comité de Empresa
+  </button>
+
+  <div
+    id="mensajeComiteEmpresa"
+    style="margin-top:12px;padding:10px;border-radius:10px;background:#e0f2fe;display:none;"
+  ></div>
+
+</div>
 
     <button onclick="alert('Próximamente podrás actualizar el calendario.')">
       📅 Gestionar calendario
