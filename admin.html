@@ -875,7 +875,79 @@ async function comprobarSesion() {
 /* =========================
    CERRAR SESIÓN
 ========================= */
+async function subirComiteEmpresa() {
 
+  const archivo =
+    document.getElementById("comiteEmpresaArchivo").files[0];
+
+  const mensaje =
+    document.getElementById("mensajeComiteEmpresa");
+
+  if (!archivo) {
+    mensaje.style.display = "block";
+    mensaje.innerText =
+      "⚠️ Selecciona la nueva imagen del Comité de Empresa.";
+    return;
+  }
+
+  mensaje.style.display = "block";
+  mensaje.innerText =
+    "📤 Subiendo nueva imagen...";
+
+  const nombreSeguro =
+    archivo.name.replace(/[^a-zA-Z0-9._-]/g, "_");
+
+  const ruta =
+    "comite/empresa_" + Date.now() + "_" + nombreSeguro;
+
+  const { error: errorSubida } =
+    await supabaseClient.storage
+      .from("documentos")
+      .upload(ruta, archivo, {
+        upsert: false
+      });
+
+  if (errorSubida) {
+    console.error(errorSubida);
+    mensaje.innerText =
+      "❌ No se ha podido subir la imagen.";
+    return;
+  }
+
+  const url =
+    `${SUPABASE_URL}/storage/v1/object/public/documentos/${ruta}`;
+
+  const { error: errorBD } =
+    await supabaseClient
+      .from("comite_imagenes")
+      .update({
+        nombre: "Comité de Empresa",
+        ruta: ruta,
+        url: url,
+        activo: true
+      })
+      .eq("tipo", "empresa");
+
+  if (errorBD) {
+    console.error(errorBD);
+
+    await supabaseClient.storage
+      .from("documentos")
+      .remove([ruta]);
+
+    mensaje.innerText =
+      "❌ No se ha podido guardar la imagen.";
+
+    return;
+  }
+
+  mensaje.innerText =
+    "✅ Comité de Empresa actualizado correctamente.";
+
+  document.getElementById(
+    "comiteEmpresaArchivo"
+  ).value = "";
+}
 async function cerrarSesion() {
 
   await supabaseClient.auth.signOut();
