@@ -6,6 +6,8 @@
 
   <title>Comité de Empresa - Maflow</title>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
   <style>
     * {
       box-sizing: border-box;
@@ -92,6 +94,7 @@
   <div class="card">
 
     <img
+      id="imagenComite"
       class="comite"
       src="comite-empresa.png"
       alt="Composición del Comité de Empresa Maflow"
@@ -104,6 +107,53 @@
   </div>
 
 </main>
+
+<script>
+
+const SUPABASE_URL =
+  "https://gyfzbpvxpklgoxrhvonm.supabase.co";
+
+const SUPABASE_KEY =
+  "sb_publishable_Jwx0bD9qPWvaWYiSmlPHZg_U3OlXsbX";
+
+const supabaseClient = supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
+async function cargarImagenComite() {
+
+  const imagen =
+    document.getElementById("imagenComite");
+
+  const { data, error } =
+    await supabaseClient
+      .from("comite_imagenes")
+      .select("url")
+      .eq("tipo", "empresa")
+      .eq("activo", true)
+      .limit(1)
+      .maybeSingle();
+
+  if (error) {
+    console.log(
+      "No se pudo cargar la imagen de Supabase:",
+      error
+    );
+    return;
+  }
+
+  if (data && data.url) {
+    imagen.src = data.url;
+  }
+}
+
+document.addEventListener(
+  "DOMContentLoaded",
+  cargarImagenComite
+);
+
+</script>
 
 </body>
 </html>
