@@ -974,6 +974,78 @@ async function subirComiteEmpresa() {
     "comiteEmpresaArchivo"
   ).value = "";
 }
+  async function subirComiteSeguridad() {
+
+  const archivo =
+    document.getElementById("comiteSeguridadArchivo").files[0];
+
+  const mensaje =
+    document.getElementById("mensajeComiteSeguridad");
+
+  if (!archivo) {
+    mensaje.style.display = "block";
+    mensaje.innerText =
+      "⚠️ Selecciona la imagen del Comité de Seguridad.";
+    return;
+  }
+
+  mensaje.style.display = "block";
+  mensaje.innerText = "📤 Subiendo imagen...";
+
+  const nombreSeguro =
+    archivo.name.replace(/[^a-zA-Z0-9._-]/g, "_");
+
+  const ruta =
+    "comite/seguridad_" + Date.now() + "_" + nombreSeguro;
+
+  const { error: errorSubida } =
+    await supabaseClient.storage
+      .from("documentos")
+      .upload(ruta, archivo, {
+        upsert: false
+      });
+
+  if (errorSubida) {
+    console.error(errorSubida);
+    mensaje.innerText =
+      "❌ No se ha podido subir la imagen.";
+    return;
+  }
+
+  const url =
+    `${SUPABASE_URL}/storage/v1/object/public/documentos/${ruta}`;
+
+  const { data, error: errorBD } =
+    await supabaseClient
+      .from("comite_imagenes")
+      .update({
+        nombre: "Comité de Seguridad y Salud",
+        ruta: ruta,
+        url: url,
+        activo: true
+      })
+      .eq("tipo", "seguridad")
+      .select("id");
+
+  if (errorBD || !data || data.length === 0) {
+    console.error(errorBD);
+
+    await supabaseClient.storage
+      .from("documentos")
+      .remove([ruta]);
+
+    mensaje.innerText =
+      "❌ No se ha podido guardar la imagen en el registro.";
+    return;
+  }
+
+  mensaje.innerText =
+    "✅ Imagen del Comité de Seguridad actualizada correctamente.";
+
+  document.getElementById(
+    "comiteSeguridadArchivo"
+  ).value = "";
+}
 async function cerrarSesion() {
 
   await supabaseClient.auth.signOut();
