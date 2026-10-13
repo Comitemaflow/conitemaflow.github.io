@@ -263,23 +263,9 @@ cargarDocumentos();
 async function cargarImagenSeguridad() {
   const imagen = document.getElementById("imagenComiteSeguridad");
 
-  const { data, error } = await supabaseClient
-    .from("comite_imagenes")
-    .select("url")
-    .eq("tipo", "seguridad")
-    .eq("activo", true)
-    .limit(1)
-    .maybeSingle();
+  imagen.src = "https://gyfzbpvxpklgoxrhvonm.supabase.co/storage/v1/object/public/documentos/comite/seguridad_1791799916631_content.png";
 
-  if (error) {
-    console.error("Error al cargar la imagen:", error);
-    return;
-  }
-
-  if (data && data.url) {
-    imagen.src = data.url;
-    imagen.style.display = "block";
-  }
+  imagen.style.display = "block";
 }
 
 cargarImagenSeguridad();
