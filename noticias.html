@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Noticias y comunicados | Comité de Empresa Maflow</title>
+
+<style>
+:root {
+  --bg: #f4f6f8;
+  --card: #fff;
+  --text: #17212b;
+  --muted: #6b7785;
+  --accent: #173f5f;
+  --accent2: #20639b;
+  --line: #e6e9ed;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  font-family: Arial, Helvetica, sans-serif;
+  color: var(--text);
+}
+
+.phone {
+  max-width: 430px;
+  min-height: 100vh;
+  margin: 0 auto;
+  background: var(--bg);
+  box-shadow: 0 0 35px rgba(0,0,0,.08);
+}
+
+header {
+  background: linear-gradient(145deg, var(--accent), var(--accent2));
+  color: white;
+  padding: 26px 22px;
+  border-radius: 0 0 28px 28px;
+}
+
+.badge {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: .8px;
+  background: rgba(255,255,255,.14);
+  padding: 7px 10px;
+  border-radius: 20px;
+  margin-bottom: 14px;
+}
+
+h1 {
+  font-size: 26px;
+  margin: 0 0 8px;
+}
+
+header p {
+  font-size: 14px;
+  margin: 0;
+  opacity: .9;
+}
+
+main {
+  padding: 20px 16px 40px;
+}
+
+.volver {
+  display: inline-block;
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+.noticia {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 18px;
+  margin-bottom: 15px;
+  box-shadow: 0 5px 16px rgba(22,34,46,.05);
+}
+
+.noticia h2 {
+  font-size: 17px;
+  line-height: 1.35;
+  margin: 0 0 8px;
+}
+
+.fecha {
+  color: var(--muted);
+  font-size: 12px;
+  margin-bottom: 12px;
+}
+
+.contenido {
+  font-size: 14px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  margin: 0;
+}
+
+.estado {
+  background: white;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 18px;
+  text-align: center;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+footer {
+  text-align: center;
+  font-size: 12px;
+  color: var(--muted);
+  padding: 10px 16px 30px;
+}
+
+@media (min-width: 700px) {
+  body {
+    padding: 30px 0;
+  }
+
+  .phone {
+    border-radius: 28px;
+    overflow: hidden;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="phone">
+
+<header>
+  <div class="badge">COMITÉ DE EMPRESA</div>
+  <h1>📢 Noticias y comunicados</h1>
+  <p>Información para los trabajadores de Maflow</p>
+</header>
+
+<main>
+
+  <a class="volver" href="index.html">← Volver al inicio</a>
+
+  <div id="lista-noticias" class="estado">
+    Cargando noticias y comunicados...
+  </div>
+
+</main>
+
+<footer>
+  Comité de Empresa Maflow
+</footer>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+const SUPABASE_URL =
+  "https://gyfzbpvxpklgoxrhvonm.supabase.co";
+
+const SUPABASE_KEY =
+  "sb_publishable_Jwx0bD9qPWvaWYiSmlPHZg_U3OlXsbX";
+
+const supabaseClient = supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
+async function cargarNoticias() {
+  const contenedor = document.getElementById("lista-noticias");
+
+  try {
+    const { data, error } = await supabaseClient
+      .from("noticias")
+      .select("titulo, contenido, fecha, created_at")
+      .eq("publicado", true)
+      .order("fecha", { ascending: false })
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      console.error("Error al cargar noticias:", error);
+      contenedor.textContent =
+        "No se han podido cargar las noticias. Inténtalo más tarde.";
+      return;
+    }
+
+    contenedor.replaceChildren();
+
+    if (!data || data.length === 0) {
+      contenedor.textContent =
+        "Todavía no hay noticias ni comunicados publicados.";
+      return;
+    }
+
+    data.forEach(function(noticia) {
+      const tarjeta = document.createElement("article");
+      tarjeta.className = "noticia";
+
+      const titulo = document.createElement("h2");
+      titulo.textContent = "📌 " + noticia.titulo;
+
+      const fecha = document.createElement("div");
+      fecha.className = "fecha";
+
+      if (noticia.fecha) {
+        const partes = noticia.fecha.split("-");
+        fecha.textContent = partes.length === 3
+          ? partes[2] + "/" + partes[1] + "/" + partes[0]
+          : noticia.fecha;
+      } else {
+        fecha.textContent = "";
+      }
+
+      const contenido = document.createElement("p");
+      contenido.className = "contenido";
+      contenido.textContent = noticia.contenido || "";
+
+      tarjeta.append(titulo, fecha, contenido);
+      contenedor.appendChild(tarjeta);
+    });
+
+  } catch (error) {
+    console.error("Error inesperado:", error);
+    contenedor.textContent =
+      "Ha ocurrido un error al cargar las noticias.";
+  }
+}
+
+cargarNoticias();
+</script>
+
+</body>
+</html>
