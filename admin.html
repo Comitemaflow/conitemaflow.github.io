@@ -199,7 +199,51 @@
 
   </div>
 
+  <!-- GESTIÓN DE COMUNICADOS -->
+  <div style="margin-top:20px;padding:15px;background:#ecfdf5;border-radius:12px;">
 
+    <h2 style="color:#065f46;margin-top:0;">
+      📢 Gestionar comunicados
+    </h2>
+
+    <p>
+      Desde aquí puedes publicar comunicados del comité en PDF o Word
+      para que los compañeros puedan consultarlos.
+    </p>
+
+    <input
+      id="comunicadoNombre"
+      type="text"
+      placeholder="Título del comunicado"
+      style="width:100%;padding:12px;border:1px solid #ddd;border-radius:10px;margin-bottom:10px;"
+    >
+
+    <input
+      id="comunicadoArchivo"
+      type="file"
+      accept=".pdf,.doc,.docx"
+      style="width:100%;padding:10px;background:white;border-radius:10px;"
+    >
+
+    <button onclick="subirComunicado()">
+      📤 Publicar comunicado
+    </button>
+
+    <div
+      id="mensajeComunicado"
+      style="margin-top:12px;padding:10px;border-radius:10px;background:#d1fae5;display:none;"
+    ></div>
+
+    <h3 style="color:#065f46;margin-top:20px;">
+      📚 Comunicados publicados
+    </h3>
+
+    <div id="listaComunicados">
+      Cargando comunicados...
+    </div>
+
+  </div>
+  <!-- FIN DE GESTIÓN DE COMUNICADOS -->
   <!-- FOTOS Y CALENDARIO -->
   <div class="card">
 
@@ -808,7 +852,183 @@ async function subirDocumento() {
 
   cargarDocumentos();
 }
+// =====================================
+// GESTIÓN DE COMUNICADOS DEL COMITÉ
+// =====================================
 
+async function subirComunicado() {
+  const nombreInput = document.getElementById("comunicadoNombre");
+  const archivoInput = document.getElementById("comunicadoArchivo");
+  const mensaje = document.getElementById("mensajeComunicado");
+
+  const nombre = nombreInput.value.trim();
+  const archivo = archivoInput.files[0];
+
+  mensaje.style.display = "block";
+
+  if (!nombre || !archivo) {
+    mensaje.innerText = "⚠️ Escribe un título y selecciona un archivo.";
+    return;
+  }
+
+  const extensionesPermitidas = [".pdf", ".doc", ".docx"];
+  const archivoNombre = archivo.name.toLowerCase();
+
+  if (!extensionesPermitidas.some(ext => archivoNombre.endsWith(ext))) {
+    mensaje.innerText = "⚠️ Solo se permiten archivos PDF o Word.";
+    return;
+  }
+
+  mensaje.innerText = "⏳ Subiendo comunicado...";
+
+  const nombreSeguro = archivo.name
+    .replace(/[^a-zA-Z0-9._-]/g, "_");
+
+  const ruta =
+    "comunicados/" + Date.now() + "_" + nombreSeguro;
+
+  const { error: errorStorage } = await supabaseClient.storage
+    .from("documentos")
+    .upload(ruta, archivo, {
+      upsert: false,
+      contentType: archivo.type || "application/octet-stream"
+    });
+
+  if (errorStorage) {
+    console.error(errorStorage);
+    mensaje.innerText = "❌ No se ha podido subir el archivo.";
+    return;
+  }
+
+  const { data: urlData } = supabaseClient.storage
+    .from("documentos")
+    .getPublicUrl(ruta);
+
+  const url = urlData.publicUrl;
+
+  const { error: errorBD } = await supabaseClient
+    .from("documentos")
+    .insert({
+      nombre: nombre,
+      ruta: ruta,
+      url: url,
+      categoria: "comunicados",
+      publicado: true
+    });
+
+  if (errorBD) {
+    await supabaseClient.storage
+      .from("documentos")
+      .remove([ruta]);
+
+    console.error(errorBD);
+    mensaje.innerText = "❌ No se ha podido guardar el comunicado.";
+    return;
+  }
+
+  mensaje.innerText = "✅ Comunicado publicado correctamente.";
+
+  nombreInput.value = "";
+  archivoInput.value = "";
+
+  await cargarComunicados();
+}
+
+
+async function cargarComunicados() {
+  const lista = document.getElementById("listaComunicados");
+
+  if (!lista) return;
+
+  lista.innerHTML = "Cargando comunicados...";
+
+  const { data, error } = await supabaseClient
+    .from("documentos")
+    .select("id,nombre,ruta,url,created_at")
+    .eq("categoria", "comunicados")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error(error);
+    lista.innerHTML = "❌ No se han podido cargar los comunicados.";
+    return;
+  }
+
+  if (!data || data.length === 0) {
+    lista.innerHTML = "<p>No hay comunicados publicados.</p>";
+    return;
+  }
+
+  lista.innerHTML = "";
+
+  data.forEach(comunicado => {
+    const tarjeta = document.createElement("div");
+
+    tarjeta.style.cssText =
+      "background:white;padding:12px;margin-top:10px;border-radius:10px;border:1px solid #d1d5db;";
+
+    const titulo = document.createElement("strong");
+    titulo.textContent = comunicado.nombre;
+
+    const enlace = document.createElement("a");
+    enlace.href = comunicado.url;
+    enlace.target = "_blank";
+    enlace.rel = "noopener noreferrer";
+    enlace.textContent = " 📄 Abrir documento";
+    enlace.style.cssText = "display:inline-block;margin:8px 0;";
+
+    const boton = document.createElement("button");
+    boton.textContent = "🗑️ Borrar comunicado";
+    boton.style.cssText =
+      "display:block;background:#b91c1c;color:white;padding:8px 12px;border:0;border-radius:8px;cursor:pointer;";
+
+    boton.addEventListener("click", () => {
+      borrarComunicado(comunicado.id, comunicado.ruta);
+    });
+
+    tarjeta.appendChild(titulo);
+    tarjeta.appendChild(document.createElement("br"));
+    tarjeta.appendChild(enlace);
+    tarjeta.appendChild(boton);
+
+    lista.appendChild(tarjeta);
+  });
+}
+
+
+async function borrarComunicado(id, ruta) {
+  const confirmar = confirm(
+    "¿Seguro que quieres borrar este comunicado?"
+  );
+
+  if (!confirmar) return;
+
+  const { error: errorStorage } = await supabaseClient.storage
+    .from("documentos")
+    .remove([ruta]);
+
+  if (errorStorage) {
+    console.error(errorStorage);
+    alert("❌ No se ha podido borrar el archivo.");
+    return;
+  }
+
+  const { error: errorBD } = await supabaseClient
+    .from("documentos")
+    .delete()
+    .eq("id", id)
+    .eq("categoria", "comunicados");
+
+  if (errorBD) {
+    console.error(errorBD);
+    alert("❌ El archivo se ha quitado del almacenamiento, pero no se ha podido borrar su registro.");
+    return;
+  }
+
+  alert("✅ Comunicado borrado correctamente.");
+
+  await cargarComunicados();
+}
 
 /* =========================
    BORRAR DOCUMENTO
