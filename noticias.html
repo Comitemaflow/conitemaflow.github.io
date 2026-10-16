@@ -164,7 +164,6 @@ footer {
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <script>
 const SUPABASE_URL =
   "https://gyfzbpvxpklgoxrhvonm.supabase.co";
@@ -180,30 +179,57 @@ const supabaseClient = supabase.createClient(
 async function cargarNoticias() {
   const contenedor = document.getElementById("lista-noticias");
 
+  contenedor.replaceChildren();
+
+  const estado = document.createElement("div");
+  estado.className = "estado";
+  estado.textContent = "Cargando noticias y comunicados...";
+  contenedor.appendChild(estado);
+
   try {
-    const { data, error } = await supabaseClient
+    // Cargar las noticias que ya existían
+    const resultadoNoticias = await supabaseClient
       .from("noticias")
       .select("titulo, contenido, fecha, created_at")
       .eq("publicado", true)
       .order("fecha", { ascending: false })
       .order("created_at", { ascending: false });
 
-    if (error) {
-      console.error("Error al cargar noticias:", error);
+    // Cargar los comunicados PDF y Word
+    const resultadoComunicados = await supabaseClient
+      .from("documentos")
+      .select("id, nombre, url, created_at")
+      .eq("categoria", "comunicados")
+      .eq("publicado", true)
+      .order("created_at", { ascending: false });
+
+    if (resultadoNoticias.error) {
+      console.error("Error al cargar noticias:", resultadoNoticias.error);
+    }
+
+    if (resultadoComunicados.error) {
+      console.error("Error al cargar comunicados:", resultadoComunicados.error);
+    }
+
+    if (resultadoNoticias.error && resultadoComunicados.error) {
       contenedor.textContent =
-        "No se han podido cargar las noticias. Inténtalo más tarde.";
+        "No se han podido cargar las noticias ni los comunicados.";
       return;
     }
 
     contenedor.replaceChildren();
 
-    if (!data || data.length === 0) {
+    const noticias = resultadoNoticias.data || [];
+    const comunicados = resultadoComunicados.data || [];
+
+    if (noticias.length === 0 && comunicados.length === 0) {
       contenedor.textContent =
         "Todavía no hay noticias ni comunicados publicados.";
       return;
     }
 
-    data.forEach(function(noticia) {
+    // Mostrar las noticias existentes
+    noticias.forEach(function(noticia) {
       const tarjeta = document.createElement("article");
       tarjeta.className = "noticia";
 
@@ -213,13 +239,13 @@ async function cargarNoticias() {
       const fecha = document.createElement("div");
       fecha.className = "fecha";
 
-      if (noticia.fecha) {
-        const partes = noticia.fecha.split("-");
+      const fechaTexto = noticia.fecha || noticia.created_at;
+
+      if (fechaTexto) {
+        const partes = fechaTexto.substring(0, 10).split("-");
         fecha.textContent = partes.length === 3
           ? partes[2] + "/" + partes[1] + "/" + partes[0]
-          : noticia.fecha;
-      } else {
-        fecha.textContent = "";
+          : fechaTexto;
       }
 
       const contenido = document.createElement("p");
@@ -230,10 +256,40 @@ async function cargarNoticias() {
       contenedor.appendChild(tarjeta);
     });
 
+    // Mostrar los comunicados PDF y Word
+    comunicados.forEach(function(comunicado) {
+      const tarjeta = document.createElement("article");
+      tarjeta.className = "noticia";
+
+      const titulo = document.createElement("h2");
+      titulo.textContent = "📄 " + comunicado.nombre;
+
+      const fecha = document.createElement("div");
+      fecha.className = "fecha";
+
+      if (comunicado.created_at) {
+        const partes = comunicado.created_at.substring(0, 10).split("-");
+        fecha.textContent = partes.length === 3
+          ? partes[2] + "/" + partes[1] + "/" + partes[0]
+          : "";
+      }
+
+      const enlace = document.createElement("a");
+      enlace.href = comunicado.url;
+      enlace.target = "_blank";
+      enlace.rel = "noopener noreferrer";
+      enlace.textContent = "Abrir comunicado";
+      enlace.style.cssText =
+        "display:inline-block;background:#173f5f;color:white;padding:10px 14px;border-radius:10px;text-decoration:none;font-weight:bold;margin-top:8px;";
+
+      tarjeta.append(titulo, fecha, enlace);
+      contenedor.appendChild(tarjeta);
+    });
+
   } catch (error) {
     console.error("Error inesperado:", error);
     contenedor.textContent =
-      "Ha ocurrido un error al cargar las noticias.";
+      "Ha ocurrido un error al cargar las noticias y los comunicados.";
   }
 }
 
