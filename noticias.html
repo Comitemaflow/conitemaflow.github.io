@@ -335,10 +335,38 @@ async function cargarNoticias() {
         url.toLowerCase().split("?")[0].endsWith(".pdf");
 
       if (esPDF && url) {
-        const visor = document.createElement("div");
-        visor.className = "pdf-visor";
-        visor.textContent = "Cargando documento PDF...";
-        tarjeta.appendChild(visor);
+        const zonaPDF = document.createElement("div");
+zonaPDF.style.cssText = "margin-top:12px;";
+
+const controlesPDF = document.createElement("div");
+controlesPDF.style.cssText =
+  "display:flex;gap:8px;justify-content:center;align-items:center;margin-bottom:10px;flex-wrap:wrap;";
+
+const botonMenos = document.createElement("button");
+botonMenos.textContent = "➖ Alejar";
+
+const botonMas = document.createElement("button");
+botonMas.textContent = "➕ Acercar";
+
+const botonRestablecer = document.createElement("button");
+botonRestablecer.textContent = "↔ Ajustar";
+
+[botonMenos, botonMas, botonRestablecer].forEach(function(boton) {
+  boton.type = "button";
+  boton.style.cssText =
+    "border:0;border-radius:9px;padding:10px;background:#173f5f;color:white;font-weight:bold;";
+});
+
+const visor = document.createElement("div");
+visor.className = "pdf-visor";
+visor.style.cssText =
+  "width:100%;height:70vh;min-height:360px;overflow:auto;border:1px solid #ddd;border-radius:10px;background:#eee;padding:10px;text-align:center;";
+
+controlesPDF.append(botonMenos, botonMas, botonRestablecer);
+zonaPDF.append(controlesPDF, visor);
+tarjeta.appendChild(zonaPDF);
+
+visor.textContent = "Cargando documento PDF...";
 
         // El fallo del visor no impide mostrar el resto de la página.
         mostrarPDF(url, visor);
