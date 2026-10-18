@@ -200,43 +200,99 @@ function crearEnlaceDocumento(url) {
   return enlace;
 }
 
-async function mostrarPDF(url, visor) {
+async function mostrarPDF(url, visor, controles) {
   if (typeof pdfjsLib === "undefined") {
-    visor.textContent =
-      "El visor PDF no está disponible. Puedes abrir o descargar el documento con el botón inferior.";
+    visor.textContent = "No se ha podido cargar el visor de PDF.";
     return;
   }
 
   try {
-    const pdf = await pdfjsLib.getDocument({ url }).promise;
-    visor.replaceChildren();
+    const pdf = await pdfjsLib.getDocument({ url: url }).promise;
 
-    for (let numero = 1; numero <= pdf.numPages; numero++) {
-      const pagina = await pdf.getPage(numero);
-      const viewportBase = pagina.getViewport({ scale: 1 });
+    let escalaActual = 1;
+    let dibujando = false;
 
-      const ancho = Math.max(240, visor.clientWidth - 22);
-      const escala = Math.min(ancho / viewportBase.width, 1.5);
-      const viewport = pagina.getViewport({ scale: escala });
+    async function dibujarPaginas() {
+      if (dibujando) return;
+      dibujando = true;
+      visor.replaceChildren();
 
-      const canvas = document.createElement("canvas");
-      const contexto = canvas.getContext("2d");
+      try {
+        const anchoDisponible = Math.max(
+          240,
+          (visor.clientWidth || Math.min(window.innerWidth - 60, 400)) - 22
+        );
 
-      canvas.width = Math.floor(viewport.width);
-      canvas.height = Math.floor(viewport.height);
-      canvas.className = "pdf-pagina";
+        for (let numero = 1; numero <= pdf.numPages; numero++) {
+          const pagina = await pdf.getPage(numero);
+          const viewport = pagina.getViewport({ scale: escalaActual });
+          const canvas = document.createElement("canvas");
+          const contexto = canvas.getContext("2d");
+          const dpr = window.devicePixelRatio || 1;
 
-      visor.appendChild(canvas);
+          canvas.width = Math.floor(viewport.width * dpr);
+          canvas.height = Math.floor(viewport.height * dpr);
+          canvas.style.width = Math.floor(viewport.width) + "px";
+          canvas.style.height = Math.floor(viewport.height) + "px";
+          canvas.style.maxWidth = "none";
+          canvas.style.display = "block";
+          canvas.style.margin = "0 auto 12px";
+          canvas.style.background = "white";
+          canvas.style.boxShadow = "0 1px 5px #999";
 
-      await pagina.render({
-        canvasContext: contexto,
-        viewport: viewport
-      }).promise;
+          visor.appendChild(canvas);
+
+          await pagina.render({
+            canvasContext: contexto,
+            viewport: viewport,
+            transform: dpr !== 1 ? [dpr, 0, 0, dpr, 0, 0] : undefined
+          }).promise;
+        }
+      } finally {
+        dibujando = false;
+      }
     }
+
+    controles.menos.onclick = async function () {
+      escalaActual = Math.max(0.5, escalaActual - 0.2);
+      await dibujarPaginas();
+    };
+
+    controles.mas.onclick = async function () {
+      escalaActual = Math.min(2.5, escalaActual + 0.2);
+      await dibujarPaginas();
+    };
+
+    controles.ajustar.onclick = async function () {
+      const primeraPagina = await pdf.getPage(1);
+      const viewportBase = primeraPagina.getViewport({ scale: 1 });
+      const ancho = Math.max(
+        240,
+        (visor.clientWidth || Math.min(window.innerWidth - 60, 400)) - 22
+      );
+
+      escalaActual = Math.min(1.5, ancho / viewportBase.width);
+      escalaActual = Math.max(0.5, escalaActual);
+
+      await dibujarPaginas();
+    };
+
+    const primeraPagina = await pdf.getPage(1);
+    const viewportBase = primeraPagina.getViewport({ scale: 1 });
+    const ancho = Math.max(
+      240,
+      (visor.clientWidth || Math.min(window.innerWidth - 60, 400)) - 22
+    );
+
+    escalaActual = Math.min(1.5, ancho / viewportBase.width);
+    escalaActual = Math.max(0.5, escalaActual);
+
+    await dibujarPaginas();
+
   } catch (error) {
     console.error("Error al mostrar el PDF:", error);
     visor.textContent =
-      "No se ha podido mostrar el PDF aquí. Puedes abrirlo o descargarlo con el botón inferior.";
+      "No se ha podido mostrar el PDF. Puedes utilizar el enlace para abrirlo o descargarlo.";
   }
 }
 
