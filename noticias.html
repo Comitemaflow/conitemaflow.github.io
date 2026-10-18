@@ -164,16 +164,20 @@ footer {
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+
+<script>>
 const SUPABASE_URL =
   "https://gyfzbpvxpklgoxrhvonm.supabase.co";
 
 const SUPABASE_KEY =
   "sb_publishable_Jwx0bD9qPWvaWYiSmlPHZg_U3OlXsbX";
-
-const supabaseClient = supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
+// Configuración del visor PDF.js
+if (typeof pdfjsLib !== "undefined") {
+  pdfjsLib.GlobalWorkerOptions.workerSrc =
+    "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+}
 );
 
 async function cargarNoticias() {
