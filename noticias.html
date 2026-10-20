@@ -200,7 +200,7 @@ function crearEnlaceDocumento(url) {
   return enlace;
 }
 
-async function mostrarPDF(url, visor, controles) {
+async function mostrarPDF(url, visor) {
   if (typeof pdfjsLib === "undefined") {
     visor.textContent = "No se ha podido cargar el visor de PDF.";
     return;
@@ -211,10 +211,15 @@ async function mostrarPDF(url, visor, controles) {
 
     let escalaActual = 1;
     let dibujando = false;
+    let renderPendiente = false;
 
     async function dibujarPaginas() {
-      if (dibujando) return;
+      if (dibujando) {
+        renderPendiente = true;
+        return;
+      }
       dibujando = true;
+      renderPendiente = false;
       visor.replaceChildren();
 
       try {
@@ -250,21 +255,53 @@ async function mostrarPDF(url, visor, controles) {
         }
       } finally {
         dibujando = false;
+        if (renderPendiente) {
+          renderPendiente = false;
+          dibujarPaginas();
+        }
       }
     }
 
-    controles.menos.onclick = async function () {
-      escalaActual = Math.max(0.5, escalaActual - 0.2);
-      await dibujarPaginas();
-    };
+    // Ampliación con dos dedos en pantallas táctiles.
+    let distanciaInicialDedos = 0;
+    let escalaInicioGesto = 1;
+    let temporizadorZoom = null;
 
-    controles.mas.onclick = async function () {
-      escalaActual = Math.min(2.5, escalaActual + 0.2);
-      await dibujarPaginas();
-    };
+    function distanciaEntreDedos(touches) {
+      const dx = touches[0].clientX - touches[1].clientX;
+      const dy = touches[0].clientY - touches[1].clientY;
+      return Math.sqrt(dx * dx + dy * dy);
+    }
 
-    controles.ajustar.onclick = async function () {
-      const primeraPagina = await pdf.getPage(1);
+    visor.style.touchAction = "pan-x pan-y";
+    visor.addEventListener("touchstart", function(event) {
+      if (event.touches.length === 2) {
+        distanciaInicialDedos = distanciaEntreDedos(event.touches);
+        escalaInicioGesto = escalaActual;
+      }
+    }, { passive: true });
+
+    visor.addEventListener("touchmove", function(event) {
+      if (event.touches.length === 2 && distanciaInicialDedos > 0) {
+        event.preventDefault();
+        const distanciaActual = distanciaEntreDedos(event.touches);
+        escalaActual = Math.max(0.5, Math.min(3, escalaInicioGesto * distanciaActual / distanciaInicialDedos));
+        clearTimeout(temporizadorZoom);
+        temporizadorZoom = setTimeout(function() {
+          dibujarPaginas();
+        }, 120);
+      }
+    }, { passive: false });
+
+    visor.addEventListener("touchend", function(event) {
+      if (event.touches.length < 2) {
+        distanciaInicialDedos = 0;
+        clearTimeout(temporizadorZoom);
+        dibujarPaginas();
+      }
+    }, { passive: true });
+
+    const primeraPagina = await pdf.getPage(1);
       const viewportBase = primeraPagina.getViewport({ scale: 1 });
       const ancho = Math.max(
         240,
@@ -398,16 +435,10 @@ const controlesPDF = document.createElement("div");
 controlesPDF.style.cssText =
   "display:flex;gap:8px;justify-content:center;align-items:center;margin-bottom:10px;flex-wrap:wrap;";
 
-const botonMenos = document.createElement("button");
-botonMenos.textContent = "➖ Alejar";
+const botonPantallaCompleta = document.createElement("button");
+botonPantallaCompleta.textContent = "⛶ Pantalla completa";
 
-const botonMas = document.createElement("button");
-botonMas.textContent = "➕ Acercar";
-
-const botonRestablecer = document.createElement("button");
-botonRestablecer.textContent = "↔ Ajustar";
-
-[botonMenos, botonMas, botonRestablecer].forEach(function(boton) {
+[botonPantallaCompleta].forEach(function(boton) {
   boton.type = "button";
   boton.style.cssText =
     "border:0;border-radius:9px;padding:10px;background:#173f5f;color:white;font-weight:bold;";
@@ -418,8 +449,29 @@ visor.className = "pdf-visor";
 visor.style.cssText =
   "width:100%;height:70vh;min-height:360px;overflow:auto;border:1px solid #ddd;border-radius:10px;background:#eee;padding:10px;text-align:center;";
 
-controlesPDF.append(botonMenos, botonMas, botonRestablecer);
+controlesPDF.append(botonPantallaCompleta);
 zonaPDF.append(controlesPDF, visor);
+
+botonPantallaCompleta.addEventListener("click", async function() {
+  try {
+    if (!document.fullscreenElement) {
+      await zonaPDF.requestFullscreen();
+      botonPantallaCompleta.textContent = "⤢ Salir de pantalla completa";
+    } else {
+      await document.exitFullscreen();
+      botonPantallaCompleta.textContent = "⛶ Pantalla completa";
+    }
+  } catch (error) {
+    console.error("No se pudo activar la pantalla completa:", error);
+    alert("Tu navegador no permite la pantalla completa en este momento.");
+  }
+});
+
+document.addEventListener("fullscreenchange", function() {
+  if (!document.fullscreenElement) {
+    botonPantallaCompleta.textContent = "⛶ Pantalla completa";
+  }
+});
 tarjeta.appendChild(zonaPDF);
 
 visor.textContent = "Cargando documento PDF...";
