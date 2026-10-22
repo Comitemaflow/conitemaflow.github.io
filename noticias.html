@@ -200,7 +200,7 @@ function crearEnlaceDocumento(url) {
   return enlace;
 }
 
-async function mostrarPDF(url, visor) {
+  async function mostrarPDF(url, visor) {
   if (typeof pdfjsLib === "undefined") {
     visor.textContent = "No se ha podido cargar el visor de PDF.";
     return;
@@ -218,19 +218,18 @@ async function mostrarPDF(url, visor) {
         renderPendiente = true;
         return;
       }
+
       dibujando = true;
       renderPendiente = false;
       visor.replaceChildren();
 
       try {
-        const anchoDisponible = Math.max(
-          240,
-          (visor.clientWidth || Math.min(window.innerWidth - 60, 400)) - 22
-        );
-
         for (let numero = 1; numero <= pdf.numPages; numero++) {
           const pagina = await pdf.getPage(numero);
-          const viewport = pagina.getViewport({ scale: escalaActual });
+          const viewport = pagina.getViewport({
+            scale: escalaActual
+          });
+
           const canvas = document.createElement("canvas");
           const contexto = canvas.getContext("2d");
           const dpr = window.devicePixelRatio || 1;
@@ -250,11 +249,14 @@ async function mostrarPDF(url, visor) {
           await pagina.render({
             canvasContext: contexto,
             viewport: viewport,
-            transform: dpr !== 1 ? [dpr, 0, 0, dpr, 0, 0] : undefined
+            transform: dpr !== 1
+              ? [dpr, 0, 0, dpr, 0, 0]
+              : undefined
           }).promise;
         }
       } finally {
         dibujando = false;
+
         if (renderPendiente) {
           renderPendiente = false;
           dibujarPaginas();
@@ -262,7 +264,7 @@ async function mostrarPDF(url, visor) {
       }
     }
 
-    // Ampliación con dos dedos en pantallas táctiles.
+    // Ampliar y reducir con dos dedos.
     let distanciaInicialDedos = 0;
     let escalaInicioGesto = 1;
     let temporizadorZoom = null;
@@ -270,23 +272,43 @@ async function mostrarPDF(url, visor) {
     function distanciaEntreDedos(touches) {
       const dx = touches[0].clientX - touches[1].clientX;
       const dy = touches[0].clientY - touches[1].clientY;
+
       return Math.sqrt(dx * dx + dy * dy);
     }
 
     visor.style.touchAction = "pan-x pan-y";
+
     visor.addEventListener("touchstart", function(event) {
       if (event.touches.length === 2) {
-        distanciaInicialDedos = distanciaEntreDedos(event.touches);
+        distanciaInicialDedos = distanciaEntreDedos(
+          event.touches
+        );
         escalaInicioGesto = escalaActual;
       }
     }, { passive: true });
 
     visor.addEventListener("touchmove", function(event) {
-      if (event.touches.length === 2 && distanciaInicialDedos > 0) {
+      if (
+        event.touches.length === 2 &&
+        distanciaInicialDedos > 0
+      ) {
         event.preventDefault();
-        const distanciaActual = distanciaEntreDedos(event.touches);
-        escalaActual = Math.max(0.5, Math.min(3, escalaInicioGesto * distanciaActual / distanciaInicialDedos));
+
+        const distanciaActual = distanciaEntreDedos(
+          event.touches
+        );
+
+        escalaActual = Math.max(
+          0.5,
+          Math.min(
+            3,
+            escalaInicioGesto *
+              distanciaActual / distanciaInicialDedos
+          )
+        );
+
         clearTimeout(temporizadorZoom);
+
         temporizadorZoom = setTimeout(function() {
           dibujarPaginas();
         }, 120);
@@ -301,105 +323,84 @@ async function mostrarPDF(url, visor) {
       }
     }, { passive: true });
 
+    // Ajustar inicialmente el PDF al ancho del visor.
     const primeraPagina = await pdf.getPage(1);
-      const viewportBase = primeraPagina.getViewport({ scale: 1 });
-      const ancho = Math.max(
-        240,
-        (visor.clientWidth || Math.min(window.innerWidth - 60, 400)) - 22
-      );
+    const viewportBase = primeraPagina.getViewport({
+      scale: 1
+    });
 
-      escalaActual = Math.min(1.5, ancho / viewportBase.width);
-      escalaActual = Math.max(0.5, escalaActual);
-
-      await dibujarPaginas();
-    };
-
-    const primeraPagina = await pdf.getPage(1);
-    const viewportBase = primeraPagina.getViewport({ scale: 1 });
     const ancho = Math.max(
       240,
-      (visor.clientWidth || Math.min(window.innerWidth - 60, 400)) - 22
+      (visor.clientWidth ||
+        Math.min(window.innerWidth - 60, 400)) - 22
     );
 
-    escalaActual = Math.min(1.5, ancho / viewportBase.width);
+    escalaActual = Math.min(
+      1.5,
+      ancho / viewportBase.width
+    );
+
     escalaActual = Math.max(0.5, escalaActual);
 
     await dibujarPaginas();
 
   } catch (error) {
     console.error("Error al mostrar el PDF:", error);
+
     visor.textContent =
       "No se ha podido mostrar el PDF. Puedes utilizar el enlace para abrirlo o descargarlo.";
   }
 }
 
-async function cargarNoticias() {
+  async function cargarNoticias() {
   const contenedor = document.getElementById("lista-noticias");
-
-  contenedor.className = "estado";
   contenedor.textContent = "Cargando noticias y comunicados...";
 
   try {
-    const [resultadoNoticias, resultadoComunicados] =
-      await Promise.all([
-        supabaseClient
-          .from("noticias")
-          .select("titulo, contenido, fecha, created_at")
-          .eq("publicado", true)
-          .order("fecha", { ascending: false })
-          .order("created_at", { ascending: false }),
-
-        supabaseClient
-          .from("documentos")
-          .select("id, nombre, url, created_at")
-          .eq("categoria", "comunicados")
-          .eq("publicado", true)
-          .order("created_at", { ascending: false })
-      ]);
+    const resultadoNoticias = await supabaseClient
+      .from("noticias")
+      .select("titulo, contenido, fecha, created_at")
+      .eq("publicado", true)
+      .order("created_at", { ascending: false });
 
     if (resultadoNoticias.error) {
-      console.error(
-        "Error al cargar noticias:",
-        resultadoNoticias.error
-      );
+      throw resultadoNoticias.error;
     }
 
-    if (resultadoComunicados.error) {
-      console.error(
-        "Error al cargar comunicados:",
-        resultadoComunicados.error
-      );
-    }
+    const resultadoDocumentos = await supabaseClient
+      .from("documentos")
+      .select("id, nombre, url, created_at")
+      .eq("categoria", "comunicados")
+      .eq("publicado", true)
+      .order("created_at", { ascending: false });
 
-    if (resultadoNoticias.error && resultadoComunicados.error) {
-      contenedor.className = "estado";
-      contenedor.textContent =
-        "No se han podido cargar las noticias ni los comunicados. Inténtalo más tarde.";
-      return;
+    if (resultadoDocumentos.error) {
+      throw resultadoDocumentos.error;
     }
 
     const noticias = resultadoNoticias.data || [];
-    const comunicados = resultadoComunicados.data || [];
+    const documentos = resultadoDocumentos.data || [];
 
     contenedor.replaceChildren();
-    contenedor.className = "";
 
-    if (noticias.length === 0 && comunicados.length === 0) {
+    if (noticias.length === 0 && documentos.length === 0) {
       contenedor.className = "estado";
       contenedor.textContent =
         "Todavía no hay noticias ni comunicados publicados.";
       return;
     }
 
-    // Mostrar las noticias existentes
+    contenedor.className = "";
+
     noticias.forEach(function(noticia) {
       const tarjeta = document.createElement("article");
       tarjeta.className = "noticia";
 
       const titulo = document.createElement("h2");
-      titulo.textContent = "📌 " + (noticia.titulo || "Noticia");
+      titulo.textContent = noticia.titulo || "Noticia";
 
       tarjeta.appendChild(titulo);
+
       tarjeta.appendChild(
         crearFecha(noticia.fecha || noticia.created_at)
       );
@@ -412,106 +413,83 @@ async function cargarNoticias() {
       contenedor.appendChild(tarjeta);
     });
 
-    // Mostrar los comunicados publicados
-    comunicados.forEach(function(comunicado) {
+    documentos.forEach(function(documento) {
       const tarjeta = document.createElement("article");
       tarjeta.className = "noticia";
 
       const titulo = document.createElement("h2");
-      titulo.textContent = "📄 " + (comunicado.nombre || "Comunicado");
+      titulo.textContent = "📄 " + (documento.nombre || "Comunicado");
 
       tarjeta.appendChild(titulo);
-      tarjeta.appendChild(crearFecha(comunicado.created_at));
+      tarjeta.appendChild(crearFecha(documento.created_at));
 
-      const url = comunicado.url;
-      const esPDF = typeof url === "string" &&
-        url.toLowerCase().split("?")[0].endsWith(".pdf");
+      const visor = document.createElement("div");
+      visor.className = "pdf-visor";
+      visor.textContent = "Cargando documento PDF...";
+      tarjeta.appendChild(visor);
 
-      if (esPDF && url) {
-        const zonaPDF = document.createElement("div");
-zonaPDF.style.cssText = "margin-top:12px;";
+      const controles = document.createElement("div");
+      controles.style.display = "flex";
+      controles.style.flexWrap = "wrap";
+      controles.style.gap = "8px";
+      controles.style.alignItems = "center";
 
-const controlesPDF = document.createElement("div");
-controlesPDF.style.cssText =
-  "display:flex;gap:8px;justify-content:center;align-items:center;margin-bottom:10px;flex-wrap:wrap;";
+      const botonPantalla = document.createElement("button");
+      botonPantalla.type = "button";
+      botonPantalla.className = "boton-documento";
+      botonPantalla.style.border = "0";
+      botonPantalla.style.cursor = "pointer";
+      botonPantalla.textContent = "Pantalla completa";
 
-const botonPantallaCompleta = document.createElement("button");
-botonPantallaCompleta.textContent = "⛶ Pantalla completa";
+      botonPantalla.addEventListener("click", async function() {
+        try {
+          if (!document.fullscreenElement) {
+            if (visor.requestFullscreen) {
+              await visor.requestFullscreen();
+            } else {
+              window.open(
+                documento.url,
+                "_blank",
+                "noopener,noreferrer"
+              );
+            }
+          } else {
+            await document.exitFullscreen();
+          }
+        } catch (error) {
+          console.error("Error al abrir pantalla completa:", error);
+          window.open(
+            documento.url,
+            "_blank",
+            "noopener,noreferrer"
+          );
+        }
+      });
 
-[botonPantallaCompleta].forEach(function(boton) {
-  boton.type = "button";
-  boton.style.cssText =
-    "border:0;border-radius:9px;padding:10px;background:#173f5f;color:white;font-weight:bold;";
-});
+      controles.appendChild(botonPantalla);
+      controles.appendChild(crearEnlaceDocumento(documento.url));
 
-const visor = document.createElement("div");
-visor.className = "pdf-visor";
-visor.style.cssText =
-  "width:100%;height:70vh;min-height:360px;overflow:auto;border:1px solid #ddd;border-radius:10px;background:#eee;padding:10px;text-align:center;";
-
-controlesPDF.append(botonPantallaCompleta);
-zonaPDF.append(controlesPDF, visor);
-
-botonPantallaCompleta.addEventListener("click", async function() {
-  try {
-    if (!document.fullscreenElement) {
-      await zonaPDF.requestFullscreen();
-      botonPantallaCompleta.textContent = "⤢ Salir de pantalla completa";
-    } else {
-      await document.exitFullscreen();
-      botonPantallaCompleta.textContent = "⛶ Pantalla completa";
-    }
-  } catch (error) {
-    console.error("No se pudo activar la pantalla completa:", error);
-    alert("Tu navegador no permite la pantalla completa en este momento.");
-  }
-});
-
-document.addEventListener("fullscreenchange", function() {
-  if (!document.fullscreenElement) {
-    botonPantallaCompleta.textContent = "⛶ Pantalla completa";
-  }
-});
-tarjeta.appendChild(zonaPDF);
-
-visor.textContent = "Cargando documento PDF...";
-
-        // El fallo del visor no impide mostrar el resto de la página.
-        mostrarPDF(url, visor);
-      } else {
-        const aviso = document.createElement("p");
-        aviso.className = "contenido";
-        aviso.textContent =
-          "Este documento no se puede previsualizar aquí. Utiliza el botón para abrirlo o descargarlo.";
-        tarjeta.appendChild(aviso);
-      }
-
-      if (url) {
-        tarjeta.appendChild(crearEnlaceDocumento(url));
-      } else {
-        const aviso = document.createElement("p");
-        aviso.className = "contenido";
-        aviso.textContent =
-          "Este comunicado no tiene una dirección de archivo disponible.";
-        tarjeta.appendChild(aviso);
-      }
-
+      tarjeta.appendChild(controles);
       contenedor.appendChild(tarjeta);
+
+      if (documento.url) {
+        mostrarPDF(documento.url, visor);
+      } else {
+        visor.textContent = "El documento no tiene una dirección válida.";
+      }
     });
 
   } catch (error) {
-    console.error(
-      "Error inesperado al cargar noticias y comunicados:",
-      error
-    );
+    console.error("Error al cargar noticias:", error);
 
     contenedor.className = "estado";
     contenedor.textContent =
-      "Ha ocurrido un error al cargar las noticias y los comunicados. Inténtalo más tarde.";
+      "No se ha podido cargar la información. Inténtalo de nuevo más tarde.";
   }
 }
 
 cargarNoticias();
 </script>
+
 </body>
 </html>
