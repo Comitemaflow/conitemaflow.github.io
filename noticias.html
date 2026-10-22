@@ -446,6 +446,9 @@ function crearEnlaceDocumento(url) {
           if (!document.fullscreenElement) {
             if (visor.requestFullscreen) {
               await visor.requestFullscreen();
+if (screen.orientation && screen.orientation.unlock) {
+  screen.orientation.unlock();
+}
             } else {
               window.open(
                 documento.url,
