@@ -435,40 +435,62 @@ function crearEnlaceDocumento(url) {
       controles.style.alignItems = "center";
 
       const botonPantalla = document.createElement("button");
+            const botonPantalla = document.createElement("button");
       botonPantalla.type = "button";
       botonPantalla.className = "boton-documento";
       botonPantalla.style.border = "0";
       botonPantalla.style.cursor = "pointer";
-      botonPantalla.textContent = "Pantalla completa";
+      botonPantalla.textContent = "Ampliar documento";
 
-      botonPantalla.addEventListener("click", async function() {
-        try {
-          if (!document.fullscreenElement) {
-            if (visor.requestFullscreen) {
-              await visor.requestFullscreen();
-if (screen.orientation && screen.orientation.unlock) {
-  screen.orientation.unlock();
-}
-            } else {
-              window.open(
-                documento.url,
-                "_blank",
-                "noopener,noreferrer"
-              );
-            }
-          } else {
-            await document.exitFullscreen();
-          }
-        } catch (error) {
-          console.error("Error al abrir pantalla completa:", error);
-          window.open(
-            documento.url,
-            "_blank",
-            "noopener,noreferrer"
-          );
+      let visorAmpliado = false;
+
+      botonPantalla.addEventListener("click", function() {
+        visorAmpliado = !visorAmpliado;
+
+        if (visorAmpliado) {
+          visor.style.position = "fixed";
+          visor.style.top = "0";
+          visor.style.left = "0";
+          visor.style.width = "100vw";
+          visor.style.height = "100dvh";
+          visor.style.maxHeight = "100dvh";
+          visor.style.zIndex = "99999";
+          visor.style.background = "#eeeeee";
+          visor.style.borderRadius = "0";
+          visor.style.margin = "0";
+          visor.style.padding = "10px";
+          visor.style.overflow = "auto";
+          visor.style.webkitOverflowScrolling = "touch";
+
+          botonPantalla.textContent = "Cerrar ampliación";
+          botonPantalla.style.position = "fixed";
+          botonPantalla.style.top = "10px";
+          botonPantalla.style.right = "10px";
+          botonPantalla.style.zIndex = "100000";
+          botonPantalla.style.margin = "0";
+        } else {
+          visor.style.position = "";
+          visor.style.top = "";
+          visor.style.left = "";
+          visor.style.width = "";
+          visor.style.height = "";
+          visor.style.maxHeight = "";
+          visor.style.zIndex = "";
+          visor.style.background = "";
+          visor.style.borderRadius = "";
+          visor.style.margin = "";
+          visor.style.padding = "";
+          visor.style.overflow = "";
+          visor.style.webkitOverflowScrolling = "";
+
+          botonPantalla.textContent = "Ampliar documento";
+          botonPantalla.style.position = "";
+          botonPantalla.style.top = "";
+          botonPantalla.style.right = "";
+          botonPantalla.style.zIndex = "";
+          botonPantalla.style.margin = "";
         }
       });
-
       controles.appendChild(botonPantalla);
       controles.appendChild(crearEnlaceDocumento(documento.url));
 
