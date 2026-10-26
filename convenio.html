@@ -4,333 +4,72 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Convenio y licencias - Maflow</title>
-
 <style>
-*{box-sizing:border-box}
-
-body{
-  margin:0;
-  font-family:Arial,sans-serif;
-  background:#f3f6f9;
-  color:#222
-}
-
-header{
-  background:linear-gradient(135deg,#075985,#0284c7);
-  color:#fff;
-  padding:25px 20px;
-  text-align:center
-}
-
-header h1{
-  margin:0;
-  font-size:23px
-}
-
-header p{
-  margin:8px 0 0;
-  opacity:.9
-}
-
-main{
-  max-width:700px;
-  margin:auto;
-  padding:18px
-}
-
-.volver,.boton{
-  display:block;
-  text-decoration:none;
-  text-align:center;
-  background:#075985;
-  color:#fff;
-  padding:13px;
-  border-radius:12px;
-  font-weight:bold
-}
-
-.volver{
-  margin-bottom:15px
-}
-
-.card{
-  background:#fff;
-  border-radius:18px;
-  padding:16px;
-  margin-bottom:15px;
-  box-shadow:0 3px 12px rgba(0,0,0,.08)
-}
-
-.card h2{
-  margin:0 0 12px;
-  font-size:19px;
-  color:#075985
-}
-
-.dato{
-  background:#f8fafc;
-  border-radius:12px;
-  padding:12px;
-  margin:8px 0;
-  line-height:1.4;
-  font-size:14px
-}
-
-.dato strong{
-  color:#075985
-}
-
-.salario{
-  width:100%;
-  height:auto;
-  display:block;
-  border-radius:10px
-}
-
-.año{
-  font-size:15px;
-  font-weight:bold;
-  margin-bottom:10px;
-  color:#075985
-}
-  .intro{
-  font-size:14px;
-  color:#64748b;
-  margin:-4px 0 15px;
-  line-height:1.4;
-}
-
-.permiso{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  background:#f8fafc;
-  border:1px solid #e2e8f0;
-  border-radius:15px;
-  padding:12px;
-  margin:9px 0;
-}
-
-.emoji{
-  width:42px;
-  height:42px;
-  min-width:42px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:#e0f2fe;
-  border-radius:12px;
-  font-size:21px;
-}
-
-.permiso strong{
-  display:block;
-  color:#075985;
-  font-size:14px;
-  margin-bottom:3px;
-}
-
-.permiso span{
-  display:block;
-  color:#475569;
-  font-size:13px;
-  line-height:1.3;
-}
-
-.aviso{
-  margin-top:14px;
-  padding:13px;
-  background:#fff7ed;
-  border-left:4px solid #f97316;
-  border-radius:10px;
-  font-size:13px;
-  line-height:1.4;
-  color:#7c2d12;
-}
-  .visor-tabla{
-  display:none;
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  background:rgba(0,0,0,.92);
-  z-index:9999;
-  overflow:auto;
-  padding:20px;
-  align-items:center;
-  justify-content:center;
-}
-
-.visor-tabla img{
-  width:100%;
-  height:auto;
-  max-width:1200px;
-}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f3f6f9;color:#222}
+header{background:linear-gradient(135deg,#075985,#0284c7);color:#fff;padding:25px 20px;text-align:center}header h1{margin:0;font-size:23px}header p{margin:8px 0 0;opacity:.9}
+main{max-width:700px;margin:auto;padding:18px}.volver,.boton{display:block;text-decoration:none;text-align:center;background:#075985;color:#fff;padding:13px;border-radius:12px;font-weight:bold}.volver{margin-bottom:15px}
+.card{background:#fff;border-radius:18px;padding:16px;margin-bottom:15px;box-shadow:0 3px 12px rgba(0,0,0,.08)}.card h2{margin:0 0 12px;font-size:19px;color:#075985}
+.dato{background:#f8fafc;border-radius:12px;padding:12px;margin:8px 0;line-height:1.4;font-size:14px}.salario{width:100%;height:auto;display:block;border-radius:10px}.año{font-size:15px;font-weight:bold;margin-bottom:10px;color:#075985}.intro{font-size:14px;color:#64748b;margin:-4px 0 15px;line-height:1.4}
+.estado-pdf{font-size:14px;color:#475569;line-height:1.5}.documento-pdf{margin:14px 0 20px;padding:12px;border:1px solid #e2e8f0;border-radius:14px;background:#f8fafc}.documento-pdf h3{margin:0 0 10px;color:#075985;font-size:16px}
+.documento-pdf iframe{display:block;width:100%;height:65vh;min-height:420px;border:0;border-radius:8px;background:#fff}.acciones-pdf{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.acciones-pdf a{flex:1;min-width:130px;text-decoration:none;text-align:center;background:#075985;color:white;padding:11px;border-radius:10px;font-weight:bold;font-size:14px}
+.visor-tabla{display:none;position:fixed;inset:0;width:100%;height:100%;background:rgba(0,0,0,.92);z-index:9999;overflow:auto;padding:20px;align-items:center;justify-content:center}.visor-tabla img{width:100%;height:auto;max-width:1200px}.cerrar{position:fixed;top:12px;right:16px;color:#fff;font-size:30px;font-weight:bold;cursor:pointer;z-index:10000}
 </style>
 </head>
-<div id="visorTabla" class="visor-tabla" onclick="cerrarTabla()">
-  <img
-    src="/conitemaflow.github.io/IMG_20260907_190324.jpg"
-    alt="Tabla salarial ampliada"
-  >
-</div>
-
-<script>
-function ampliarTabla() {
-  document.getElementById("visorTabla").style.display = "flex";
-}
-
-function cerrarTabla() {
-  document.getElementById("visorTabla").style.display = "none";
-}
-</script>
 <body>
-
-<header>
-<h1>📄 Convenio y licencias</h1>
-<p>Comité de Empresa Maflow</p>
-</header>
-
+<header><h1>📄 Convenio y licencias</h1><p>Comité de Empresa Maflow</p></header>
 <main>
-
-<a class="volver" href="index.html">
-← Volver a la página principal
-</a>
-
+<a class="volver" href="index.html">← Volver a la página principal</a>
 <div class="card">
-
 <h2>📕 Convenio colectivo 2025-2028</h2>
-
-<p>
-Consulta el texto completo del Convenio Colectivo para la Industria
-Siderometalúrgica de Cantabria 2025-2028.
-</p>
-
-
+<p>Consulta el texto completo del Convenio Colectivo para la Industria Siderometalúrgica de Cantabria 2025-2028.</p>
 <a class="boton" href="leer-convenio.html">📖 Leer convenio completo</a>
-
 </div>
-  
 <div class="card">
 <h2>📝 Licencias retribuidas</h2>
-
-<div class="dato">
-<strong>💍 Matrimonio o pareja de hecho registrada</strong><br>
-15 días naturales.
+<p class="intro">Consulta los documentos PDF de licencias y permisos publicados por el Comité de Empresa.</p>
+<div id="lista-licencias" class="estado-pdf">Cargando documentos de licencias...</div>
 </div>
-
-<div class="dato">
-<strong>👶 Nacimiento de hijo</strong><br>
-2 días laborables.
-</div>
-
-<div class="dato">
-<strong>🏥 Accidente, enfermedad grave u hospitalización</strong><br>
-5 días en los casos establecidos en el convenio.
-</div>
-
-<div class="dato">
-<strong>⚫ Fallecimiento de familiares</strong><br>
-Cónyuge, pareja de hecho o hijo: 8 días naturales.<br>
-Padres o hermanos: 3 días.<br>
-Abuelos o nietos: 2 días.
-</div>
-
-<div class="dato">
-<strong>💒 Boda de padres, hijos o hermanos</strong><br>
-1 día.
-</div>
-
-<div class="dato">
-<strong>🏠 Traslado de domicilio</strong><br>
-1 día.
-</div>
-
-<div class="dato">
-<strong>👶 Lactancia</strong><br>
-1 hora de ausencia hasta que el hijo cumpla 9 meses, en los términos previstos en el convenio.
-</div>
-
-<div class="dato">
-<strong>🏥 Consultas médicas</strong><br>
-Tiempo necesario para consulta médica especializada y 16 horas anuales para otras consultas médicas, según los requisitos del convenio.
-</div>
-
-<div class="dato">
-<strong>🎓 Exámenes oficiales</strong><br>
-Tiempo necesario.
-</div>
-
-<div class="dato">
-<strong>🚗 Desplazamientos superiores a 500 km</strong><br>
-En determinados permisos por accidente, enfermedad grave u hospitalización y fallecimiento, se amplía 1 día.
-</div>
-
-</div>
-<img
-  class="salario"
-  src="/conitemaflow.github.io/licenciasretribuidas.jpg"
-  alt="Permisos retribuidos"
->
-
-</div>
-<
 <div class="card">
-
 <h2>🏖️ Vacaciones</h2>
-
-<div class="dato">
-<strong>Duración:</strong><br>
-30 días naturales o 26 días laborables.
+<div class="dato"><strong>Duración:</strong><br>30 días naturales o 26 días laborables.</div>
+<div class="dato"><strong>📅 Vacaciones continuadas:</strong><br>Al menos 21 días naturales consecutivos.</div>
+<div class="dato"><strong>📢 Planificación:</strong><br>El periodo de vacaciones debe comunicarse con la antelación establecida en el convenio.</div>
 </div>
-
-<div class="dato">
-<strong>📅 Vacaciones continuadas:</strong><br>
-Al menos 21 días naturales consecutivos.
-</div>
-
-<div class="dato">
-<strong>📢 Planificación:</strong><br>
-El periodo de vacaciones debe comunicarse con la antelación establecida en el convenio.
-</div>
-
-</div>
-
 <div class="card">
-
-<h2>💶 Salarios</h2>
-
-<div class="año">
-Tabla salarial 2026
+<h2>💶 Salarios</h2><div class="año">Tabla salarial 2026</div>
+<img class="salario" src="/conitemaflow.github.io/IMG_20260907_190324.jpg" alt="Tabla salarial 2026" onclick="ampliarTabla()" style="cursor:zoom-in;">
 </div>
-<img
-class="salario"
-src="/conitemaflow.github.io/IMG_20260907_190324.jpg"
-alt="Tabla salarial 2026"
-onclick="ampliarTabla()"
-style="cursor:zoom-in;"
->
-
-</div>
-
 </main>
-<div id="visorTabla" class="visor-tabla">
-  <span class="cerrar" onclick="cerrarTabla()">✕</span>
-  <img
-    src="/conitemaflow.github.io/IMG_20260907_190324.jpg"
-    alt="Tabla salarial ampliada"
-  >
-</div>
-
+<div id="visorTabla" class="visor-tabla" onclick="cerrarTabla()"><span class="cerrar" onclick="cerrarTabla()">✕</span><img src="/conitemaflow.github.io/IMG_20260907_190324.jpg" alt="Tabla salarial ampliada"></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-function ampliarTabla() {
-  document.getElementById("visorTabla").style.display = "flex";
+const SUPABASE_URL = "https://gyfzbpvxpklgoxrhvonm.supabase.co";
+const SUPABASE_KEY = "sb_publishable_Jwx0bD9qPWvaWYiSmlPHZg_U3OlXsbX";
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+function ampliarTabla(){document.getElementById("visorTabla").style.display="flex"}
+function cerrarTabla(){document.getElementById("visorTabla").style.display="none"}
+async function cargarLicencias(){
+ const contenedor=document.getElementById("lista-licencias");
+ try{
+  const resultado=await supabaseClient.from("documentos").select("id,nombre,url,created_at").eq("categoria","licencias").eq("publicado",true).order("created_at",{ascending:false});
+  if(resultado.error) throw resultado.error;
+  contenedor.replaceChildren();
+  if(!resultado.data||resultado.data.length===0){contenedor.textContent="Todavía no hay documentos de licencias publicados.";return}
+  resultado.data.forEach(function(documento){
+   const tarjeta=document.createElement("div");tarjeta.className="documento-pdf";
+   const titulo=document.createElement("h3");titulo.textContent=documento.nombre||"Documento de licencias";tarjeta.appendChild(titulo);
+   if(documento.url){
+    const visor=document.createElement("iframe");visor.src=documento.url;visor.title=titulo.textContent;visor.loading="lazy";visor.setAttribute("allowfullscreen","");tarjeta.appendChild(visor);
+    const acciones=document.createElement("div");acciones.className="acciones-pdf";
+    const abrir=document.createElement("a");abrir.href=documento.url;abrir.target="_blank";abrir.rel="noopener";abrir.textContent="Abrir PDF";acciones.appendChild(abrir);
+    const descargar=document.createElement("a");descargar.href=documento.url;descargar.target="_blank";descargar.rel="noopener";descargar.textContent="Abrir / descargar";acciones.appendChild(descargar);
+    tarjeta.appendChild(acciones);
+   }else{const aviso=document.createElement("p");aviso.textContent="Este documento no tiene una dirección PDF válida.";tarjeta.appendChild(aviso)}
+   contenedor.appendChild(tarjeta);
+  });
+ }catch(error){console.error("Error al cargar documentos de licencias:",error);contenedor.textContent="No se han podido cargar los documentos. Inténtalo de nuevo más tarde."}
 }
-
-function cerrarTabla() {
-  document.getElementById("visorTabla").style.display = "none";
-}
+cargarLicencias();
 </script>
 </body>
 </html>
