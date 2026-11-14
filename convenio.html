@@ -49,26 +49,65 @@ const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 function ampliarTabla(){document.getElementById("visorTabla").style.display="flex"}
 function cerrarTabla(){document.getElementById("visorTabla").style.display="none"}
 async function cargarLicencias(){
+async function cargarLicencias(){
  const contenedor=document.getElementById("lista-licencias");
+
  try{
-  const resultado=await supabaseClient.from("documentos").select("id,nombre,url,created_at").eq("categoria","licencias").eq("publicado",true).order("created_at",{ascending:false});
+  const resultado=await supabaseClient
+   .from("documentos")
+   .select("id,nombre,url,ruta,created_at")
+   .eq("categoria","licencias")
+   .eq("publicado",true)
+   .order("created_at",{ascending:false});
+
   if(resultado.error) throw resultado.error;
+
   contenedor.replaceChildren();
-  if(!resultado.data||resultado.data.length===0){contenedor.textContent="Todavía no hay documentos de licencias publicados.";return}
+
+  if(!resultado.data || resultado.data.length===0){
+   contenedor.textContent="Todavía no hay documentos de licencias publicados.";
+   return;
+  }
+
   resultado.data.forEach(function(documento){
-   const tarjeta=document.createElement("div");tarjeta.className="documento-pdf";
-   const titulo=document.createElement("h3");titulo.textContent=documento.nombre||"Documento de licencias";tarjeta.appendChild(titulo);
-   if(documento.url){
-    const visor=document.createElement("iframe");visor.src=documento.url;visor.title=titulo.textContent;visor.loading="lazy";visor.setAttribute("allowfullscreen","");tarjeta.appendChild(visor);
-    const acciones=document.createElement("div");acciones.className="acciones-pdf";
-    const abrir=document.createElement("a");abrir.href=documento.url;abrir.target="_blank";abrir.rel="noopener";abrir.textContent="Abrir PDF";acciones.appendChild(abrir);
-    const descargar=document.createElement("a");descargar.href=documento.url;descargar.target="_blank";descargar.rel="noopener";descargar.textContent="Abrir / descargar";acciones.appendChild(descargar);
-    tarjeta.appendChild(acciones);
-   }else{const aviso=document.createElement("p");aviso.textContent="Este documento no tiene una dirección PDF válida.";tarjeta.appendChild(aviso)}
+
+   const direccion=documento.url || documento.ruta;
+
+   const tarjeta=document.createElement("div");
+   tarjeta.className="documento-pdf";
+
+   const titulo=document.createElement("h3");
+   titulo.textContent=documento.nombre || "Licencias";
+   tarjeta.appendChild(titulo);
+
+   if(direccion){
+
+    const visor=document.createElement("iframe");
+
+    visor.src="https://docs.google.com/gview?embedded=1&url="
+      +encodeURIComponent(direccion);
+
+    visor.title="Documento de licencias";
+    visor.loading="eager";
+    visor.style.width="100%";
+    visor.style.height="75vh";
+    visor.style.minHeight="520px";
+
+    tarjeta.appendChild(visor);
+
+   }else{
+    tarjeta.textContent="No se encuentra el enlace del PDF.";
+   }
+
    contenedor.appendChild(tarjeta);
   });
- }catch(error){console.error("Error al cargar documentos de licencias:",error);contenedor.textContent="No se han podido cargar los documentos. Inténtalo de nuevo más tarde."}
+
+ }catch(error){
+  console.error(error);
+  contenedor.textContent="No se han podido cargar las licencias.";
+ }
 }
+
 cargarLicencias();
 </script>
 </body>
