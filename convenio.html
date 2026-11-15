@@ -49,63 +49,19 @@ const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 function ampliarTabla(){document.getElementById("visorTabla").style.display="flex"}
 function cerrarTabla(){document.getElementById("visorTabla").style.display="none"}
 
-async function cargarLicencias(){
+function cargarLicencias(){
  const contenedor=document.getElementById("lista-licencias");
 
- try{
-  const resultado=await supabaseClient
-   .from("documentos")
-   .select("id,nombre,url,ruta,created_at")
-   .eq("categoria","licencias")
-   .eq("publicado",true)
-   .order("created_at",{ascending:false});
-
-  if(resultado.error) throw resultado.error;
-
-  contenedor.replaceChildren();
-
-  if(!resultado.data || resultado.data.length===0){
-   contenedor.textContent="Todavía no hay documentos de licencias publicados.";
-   return;
-  }
-
-  resultado.data.forEach(function(documento){
-
-   const direccion=documento.url || documento.ruta;
-
-   const tarjeta=document.createElement("div");
-   tarjeta.className="documento-pdf";
-
-   const titulo=document.createElement("h3");
-   titulo.textContent=documento.nombre || "Licencias";
-   tarjeta.appendChild(titulo);
-
-   if(direccion){
-
-    const visor=document.createElement("iframe");
-
-    visor.src="https://docs.google.com/gview?embedded=1&url="
-      +encodeURIComponent(direccion);
-
-    visor.title="Documento de licencias";
-    visor.loading="eager";
-    visor.style.width="100%";
-    visor.style.height="75vh";
-    visor.style.minHeight="520px";
-
-    tarjeta.appendChild(visor);
-
-   }else{
-    tarjeta.textContent="No se encuentra el enlace del PDF.";
-   }
-
-   contenedor.appendChild(tarjeta);
-  });
-
- }catch(error){
-  console.error(error);
-  contenedor.textContent="No se han podido cargar las licencias.";
- }
+ contenedor.innerHTML=`
+  <div class="documento-pdf">
+   <h3>Licencias retribuidas</h3>
+   <img
+    src="https://gyfzbpvxpklgoxrhvonm.supabase.co/storage/v1/object/public/documentos/Licencias/permisos%20retribuidos.jpg"
+    alt="Permisos retribuidos por motivos familiares"
+    style="width:100%;height:auto;display:block;border-radius:10px;"
+   >
+  </div>
+ `;
 }
 
 cargarLicencias();
