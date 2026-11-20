@@ -226,7 +226,8 @@ async function cargarDocumentos() {
   lista.innerHTML = "";
 
 
-  data.forEach(function(doc) {
+  data.filter(doc => doc.nombre !== "content (7)")
+    .forEach(function(doc) {
 
     const bloque =
       document.createElement("div");
